@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import AboutMe from '../components/AboutMe.astro';
+import Stats from '../components/Stats.astro';
+import Showcase from '../components/Showcase.astro';
+import Projects from '../components/Projects.astro';
+import VelvetRoom from '../components/VelvetRoom.astro';
+import SectionDivider from '../components/SectionDivider.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout>
+  <Nav />
+  <main class="relative min-h-screen p5-bg-pattern overflow-hidden">
+    <Hero />
+    <SectionDivider />
+    <AboutMe />
+    <SectionDivider />
+    <Stats />
+    <SectionDivider />
+    <Showcase />
+    <SectionDivider />
+    <Projects />
+    <SectionDivider />
+    <VelvetRoom />
+    <Footer />
+  </main>
+</Layout>
+
+<script>
+  // Scroll-triggered animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-p5-slide-in-left');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('[data-animate]').forEach(el => {
+    (el as HTMLElement).style.opacity = '0';
+    observer.observe(el);
+  });
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
+      if (href && href !== '#') {
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  });
+</script>

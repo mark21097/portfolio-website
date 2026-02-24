@@ -1,0 +1,45 @@
+---
+import { completedProjects } from '../data/portfolio';
+---
+
+<section id="projects" class="relative z-10 px-8 md:px-16 py-24">
+  <!-- Section header -->
+  <div class="relative inline-block mb-16">
+    <h2 class="font-p5 text-5xl md:text-7xl uppercase text-white tracking-tight">Projects</h2>
+    <div class="absolute -bottom-2 left-0 w-full h-2 bg-p5-red -skew-x-12"></div>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-10">
+    {completedProjects.map((project, i) => (
+      <div class="group relative cursor-pointer" data-animate>
+        <!-- Red shadow layer -->
+        <div class="absolute inset-0 bg-p5-red translate-x-2 translate-y-2 -skew-x-6
+                    transition-transform duration-300 group-hover:translate-x-4 group-hover:translate-y-4"></div>
+        <!-- Card -->
+        <div class="relative bg-p5-black border-l-[8px] border-p5-red p-8 -skew-x-6
+                    transition-transform duration-300 group-hover:-translate-y-1 group-hover:-translate-x-1">
+          <div class="skew-x-6">
+            <!-- Index -->
+            <span class="font-p5-body text-p5-red text-xs tracking-[0.3em] block mb-2">
+              Project {i + 1}
+            </span>
+            <!-- Title -->
+            <h3 class="font-p5 text-3xl uppercase text-white leading-tight tracking-wide">{project.title}</h3>
+            <!-- Description -->
+            <p class="mt-4 font-p5-body text-white/60 text-sm uppercase tracking-wider leading-relaxed">{project.desc}</p>
+            <!-- CLEARED stamp -->
+            <div class="mt-6 inline-block border-2 border-p5-red text-p5-red
+                        font-p5-accent text-sm px-3 py-1 rotate-[-3deg] opacity-70
+                        group-hover:opacity-100 transition-opacity">
+              CLEARED
+            </div>
+          </div>
+          <!-- Tear-page corner -->
+          <div class="tear-corner">
+            <span class="tear-text font-p5-body">Click<br/>to Reveal</span>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

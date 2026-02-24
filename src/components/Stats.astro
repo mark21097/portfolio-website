@@ -1,0 +1,153 @@
+---
+import { stats } from '../data/portfolio';
+
+// Pentagon vertex positions (5 points, starting from top, going clockwise)
+// Using a coordinate system centered at (200, 200) with max radius 150
+const cx = 200;
+const cy = 200;
+const maxR = 150;
+const angles = [-90, -18, 54, 126, 198]; // degrees for: top, top-right, bottom-right, bottom-left, top-left
+
+function polarToXY(angleDeg: number, radius: number): [number, number] {
+  const rad = (angleDeg * Math.PI) / 180;
+  return [cx + radius * Math.cos(rad), cy + radius * Math.sin(rad)];
+}
+
+// Outer pentagon (max boundary)
+// Stat polygon (scaled by rank/5)
+const statPoints = stats.map((s, i) => polarToXY(angles[i], maxR * (s.rank / 5)));
+const statPath = statPoints.map((p, i) => `${i === 0 ? 'M' : 'L'}${p[0]},${p[1]}`).join(' ') + ' Z';
+
+// Grid lines at each level (1-5)
+const gridPaths = [1, 2, 3, 4, 5].map(level => {
+  const pts = angles.map(a => polarToXY(a, maxR * (level / 5)));
+  return pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p[0]},${p[1]}`).join(' ') + ' Z';
+});
+
+// Axis lines from center to each vertex
+const axisLines = angles.map(a => polarToXY(a, maxR));
+
+// Dots along each axis at each level
+const dots: { x: number; y: number; filled: boolean }[] = [];
+stats.forEach((s, i) => {
+  for (let level = 1; level <= 5; level++) {
+    const [x, y] = polarToXY(angles[i], maxR * (level / 5));
+    dots.push({ x, y, filled: level <= s.rank });
+  }
+});
+
+// Label positions (pushed further out)
+const labelPositions = angles.map(a => polarToXY(a, maxR + 55));
+---
+
+<section id="stats" class="relative z-10 px-8 md:px-16 py-24 p5-halftone">
+  <div class="relative z-10">
+    <!-- Section header -->
+    <div class="relative inline-block mb-8">
+      <h2 class="font-p5 text-5xl md:text-7xl uppercase text-white tracking-tight">STATS</h2>
+      <div class="absolute -bottom-2 left-0 w-full h-2 bg-p5-red -skew-x-12"></div>
+    </div>
+
+    <!-- Reveal button -->
+    <div class="mt-6 mb-12">
+      <button id="stats-reveal-btn"
+              class="bg-p5-red text-white -skew-x-12 px-8 py-3 font-p5 text-2xl uppercase
+                     shadow-[6px_6px_0px_black] hover:shadow-[8px_8px_0px_black]
+                     hover:translate-x-[-2px] hover:translate-y-[-2px]
+                     transition-all cursor-pointer tracking-wider">
+        <span class="skew-x-12 inline-block">CHECK STATS</span>
+      </button>
+      <p class="mt-4 text-p5-red text-sm font-p5-body tracking-[0.3em] opacity-70 animate-pulse">
+        &gt;&gt; PRESS TO VIEW STATUS
+      </p>
+    </div>
+
+    <!-- Radar Chart Container -->
+    <div id="stats-container" class="hidden opacity-0 transition-opacity duration-500 flex justify-center">
+      <div class="relative w-full max-w-xl">
+        <svg viewBox="0 0 400 400" class="w-full h-auto">
+          <defs>
+            <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFD700" />
+              <stop offset="50%" stop-color="#FFA500" />
+              <stop offset="100%" stop-color="#FF8C00" />
+            </linearGradient>
+            <filter id="starGlow">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Grid pentagons (level lines) -->
+          {gridPaths.map((path, i) => (
+            <path d={path} fill="none" stroke="rgba(255,255,255,0.08)"
+                  stroke-width={i === 4 ? "2" : "1"} />
+          ))}
+
+          <!-- Axis lines -->
+          {axisLines.map(([x, y]) => (
+            <line x1={cx} y1={cy} x2={x} y2={y}
+                  stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+          ))}
+
+          <!-- Filled stat polygon (golden star) -->
+          <path d={statPath} fill="url(#starGradient)" fill-opacity="0.85"
+                stroke="#FFD700" stroke-width="2" filter="url(#starGlow)" />
+
+          <!-- Dots along axes -->
+          {dots.map((dot) => (
+            <circle cx={dot.x} cy={dot.y} r="3"
+                    fill={dot.filled ? "#FFD700" : "rgba(255,255,255,0.2)"}
+                    stroke={dot.filled ? "#FFA500" : "rgba(255,255,255,0.1)"}
+                    stroke-width="1" />
+          ))}
+
+          <!-- Stat labels -->
+          {stats.map((stat, i) => {
+            const [lx, ly] = labelPositions[i];
+            const anchor = lx < 150 ? 'end' : lx > 250 ? 'start' : 'middle';
+            return (
+              <g>
+                {/* Stat name - yellow highlight box */}
+                <rect x={anchor === 'end' ? lx - 90 : anchor === 'start' ? lx - 5 : lx - 45}
+                      y={ly - 16} width="95" height="22" fill="#FFD700" rx="2"
+                      transform={`rotate(${Math.random() * 6 - 3}, ${lx}, ${ly})`} />
+                <text x={lx} y={ly} text-anchor={anchor}
+                      class="font-p5-accent" fill="#0D0D0D" font-size="14" font-weight="bold">
+                  {stat.name}
+                </text>
+                {/* MAX / rank label */}
+                <text x={lx} y={ly + 18} text-anchor={anchor}
+                      class="font-p5-body" fill="#FFD700" font-size="13" font-weight="bold">
+                  {stat.rank >= 5 ? 'MAX' : `${stat.rank}/5`}
+                </text>
+                <text x={lx} y={ly + 34} text-anchor={anchor}
+                      class="font-p5-body" fill="rgba(255,255,255,0.5)" font-size="11">
+                  {stat.rankLabel}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const btn = document.getElementById('stats-reveal-btn');
+  const container = document.getElementById('stats-container');
+
+  if (btn && container) {
+    btn.addEventListener('click', () => {
+      container.classList.toggle('hidden');
+      setTimeout(() => {
+        container.classList.toggle('opacity-0');
+        container.classList.toggle('opacity-100');
+      }, 10);
+    });
+  }
+</script>

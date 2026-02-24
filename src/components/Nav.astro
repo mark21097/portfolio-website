@@ -1,0 +1,57 @@
+---
+import { navItems } from '../data/portfolio';
+---
+
+<!-- Desktop Nav: fixed right side -->
+<nav class="fixed right-0 top-1/2 -translate-y-1/2 z-[100] hidden md:flex flex-col gap-2" id="p5-nav">
+  {navItems.map((item) => (
+    <a href={`#${item.id}`}
+       class="group flex items-center justify-end">
+      <span class="bg-p5-red text-white font-p5-body text-base px-5 py-1.5
+                    -skew-x-12 translate-x-20 group-hover:translate-x-0
+                    transition-transform duration-300 shadow-[3px_3px_0px_black]
+                    tracking-wider">
+        <span class="skew-x-12 inline-block">{item.label}</span>
+      </span>
+    </a>
+  ))}
+</nav>
+
+<!-- Mobile Nav: hamburger -->
+<button id="mobile-nav-toggle"
+        class="fixed top-6 left-6 z-[110] md:hidden flex flex-col gap-1.5 cursor-pointer bg-transparent border-none p-2"
+        aria-label="Toggle navigation">
+  <span class="w-8 h-1 bg-p5-red -skew-x-12 transition-all" id="burger-1"></span>
+  <span class="w-6 h-1 bg-white -skew-x-12 transition-all" id="burger-2"></span>
+  <span class="w-8 h-1 bg-p5-red -skew-x-12 transition-all" id="burger-3"></span>
+</button>
+
+<!-- Mobile Nav Overlay -->
+<div id="mobile-nav-overlay"
+     class="fixed inset-0 bg-p5-black/95 z-[105] hidden flex-col items-center justify-center gap-6">
+  {navItems.map((item) => (
+    <a href={`#${item.id}`}
+       class="mobile-nav-link text-4xl font-p5 text-white hover:text-p5-red transition-colors tracking-wider uppercase">
+      {item.label}
+    </a>
+  ))}
+</div>
+
+<script>
+  const toggle = document.getElementById('mobile-nav-toggle');
+  const overlay = document.getElementById('mobile-nav-overlay');
+  const links = document.querySelectorAll('.mobile-nav-link');
+
+  if (toggle && overlay) {
+    toggle.addEventListener('click', () => {
+      overlay.classList.toggle('hidden');
+      overlay.classList.toggle('flex');
+    });
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        overlay.classList.add('hidden');
+        overlay.classList.remove('flex');
+      });
+    });
+  }
+</script>

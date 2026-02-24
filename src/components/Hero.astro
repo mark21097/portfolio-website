@@ -1,0 +1,42 @@
+---
+---
+
+<section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden p5-speed-lines">
+  <!-- Diagonal red slash background -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute w-[200%] h-72 bg-p5-red -rotate-12 top-1/3 -left-1/4 opacity-90"></div>
+    <div class="absolute w-[200%] h-16 bg-white -rotate-12 top-[38%] -left-1/4 opacity-10"></div>
+  </div>
+
+  <!-- Spinning UCI Logo -->
+  <div class="absolute top-8 right-8 z-50 md:top-12 md:right-12 pointer-events-none">
+    <img
+      src="/uci-logo.png"
+      alt="UCI Logo"
+      class="w-48 h-48 md:w-64 md:h-64 animate-[spin_12s_linear_infinite] brightness-100"
+    />
+  </div>
+
+  <!-- Name block - P5R style: red text with dark layered shadows -->
+  <div class="relative z-10 text-center px-4">
+    <h1 class="font-p5 text-6xl md:text-8xl lg:text-[9rem] leading-none text-p5-red tracking-tighter uppercase
+               [text-shadow:3px_3px_0px_#333,6px_6px_0px_#000]
+               [-webkit-text-stroke:1px_rgba(255,255,255,0.15)]">
+      <span class="inline-block -rotate-2">MARK</span>
+      <span class="inline-block rotate-1">VALINH</span>
+      <br/>
+      <span class="inline-block -rotate-1 text-5xl md:text-6xl lg:text-8xl mt-2">PHOUIPHIPHATH</span>
+    </h1>
+
+    <!-- Subtitle badges -->
+    <div class="mt-10 flex flex-wrap justify-center gap-4">
+      <span class="bg-p5-red text-white px-6 py-2 -skew-x-12 font-p5-body text-xl uppercase
+                   shadow-[4px_4px_0px_black] tracking-wider">
+        <span class="skew-x-12 inline-block">Computer Science @ UCI</span>
+      </span>
+      <span class="border-2 border-p5-red text-p5-red px-6 py-2 -skew-x-12 font-p5-body text-xl uppercase tracking-wider">
+        <span class="skew-x-12 inline-block">Full Stack Developer</span>
+      </span>
+    </div>
+  </div>
+</section>

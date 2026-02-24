@@ -1,0 +1,58 @@
+---
+---
+
+<section id="resume" class="relative z-10 px-8 md:px-16 py-24">
+  <!-- Section header -->
+  <div class="relative inline-block mb-16">
+    <h2 class="font-p5 text-5xl md:text-7xl uppercase text-white tracking-tight">Resume</h2>
+    <div class="absolute -bottom-2 left-0 w-full h-2 bg-p5-red -skew-x-12"></div>
+  </div>
+
+  <!-- Contact links -->
+  <div class="flex flex-wrap gap-6 mb-20">
+    {[
+      { label: 'EMAIL', href: 'mailto:placeholder@email.com' },
+      { label: 'GITHUB', href: '#' },
+      { label: 'LINKEDIN', href: '#' },
+    ].map((link) => (
+      <a href={link.href}
+         class="inline-block bg-p5-red text-white font-p5 px-8 py-3 -skew-x-12 text-xl
+                shadow-[4px_4px_0px_black] hover:shadow-[6px_6px_0px_black]
+                hover:translate-x-[-2px] hover:translate-y-[-2px]
+                transition-all uppercase tracking-wider">
+        <span class="skew-x-12 inline-block">{link.label}</span>
+      </a>
+    ))}
+  </div>
+
+  <!-- Calling Card -->
+  <div class="max-w-2xl mx-auto" data-animate>
+    <div class="bg-white text-p5-black p-10 md:p-14 rotate-1
+                shadow-[8px_8px_0px_#FF0000] border-4 border-p5-black relative">
+      <!-- Decorative corner marks -->
+      <div class="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-p5-red"></div>
+      <div class="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-p5-red"></div>
+      <div class="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-p5-red"></div>
+      <div class="absolute bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-p5-red"></div>
+
+      <p class="font-p5-accent text-lg md:text-xl leading-relaxed">
+        Sir/Madam, we have decided to make you aware of our skills and expertise.
+        We will take your project requirements and deliver beyond expectations.
+        Your heart will be stolen by our craft.
+      </p>
+      <p class="font-p5-accent text-lg mt-6 text-p5-red">
+        &mdash; The Phantom Developer, Mark Valinh Phouiphiphath
+      </p>
+
+      <div class="mt-8 flex justify-center">
+        <a href="#"
+           class="inline-block bg-p5-red text-white font-p5 px-8 py-3
+                  -skew-x-12 shadow-[4px_4px_0px_black]
+                  hover:shadow-[6px_6px_0px_black] hover:translate-x-[-2px] hover:translate-y-[-2px]
+                  transition-all uppercase text-lg tracking-wider">
+          <span class="skew-x-12 inline-block">DOWNLOAD CALLING CARD (RESUME)</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

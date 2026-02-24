@@ -1,0 +1,172 @@
+@import "tailwindcss";
+
+@theme {
+  /* P5R Core Palette - Red, Black, White */
+  --color-p5-red: #FF0000;
+  --color-p5-red-dark: #CC0000;
+  --color-p5-black: #0D0D0D;
+  --color-p5-white: #FFFFFF;
+  --color-p5-gray: #1A1A1A;
+
+  /* Fonts */
+  --font-p5: "Anton", sans-serif;
+  --font-p5-body: "Bebas Neue", sans-serif;
+  --font-p5-accent: "Permanent Marker", cursive;
+}
+
+/* P5R Background pattern - subtle halftone dots */
+.p5-bg-pattern {
+  background-color: var(--color-p5-black);
+  background-image: radial-gradient(circle at 2px 2px, rgba(255, 0, 0, 0.03) 1px, transparent 0);
+  background-size: 8px 8px;
+}
+
+/* Halftone overlay - apply to sections with position:relative */
+.p5-halftone {
+  position: relative;
+}
+.p5-halftone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 4px 4px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Dense halftone for darker sections */
+.p5-halftone-dense::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 3px 3px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Manga speed lines for hero */
+.p5-speed-lines {
+  position: relative;
+}
+.p5-speed-lines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 49%,
+    rgba(255, 0, 0, 0.02) 49%,
+    rgba(255, 0, 0, 0.02) 51%,
+    transparent 51%
+  );
+  background-size: 60px 100%;
+  pointer-events: none;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-p5-red);
+  color: white;
+}
+
+/* Animations */
+@keyframes p5-slide-in {
+  from { transform: translateX(100px) skewX(-12deg); opacity: 0; }
+  to { transform: translateX(0) skewX(0); opacity: 1; }
+}
+
+@keyframes p5-slide-in-left {
+  from { transform: translateX(-80px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes p5-stamp {
+  0% { transform: scale(3) rotate(-10deg); opacity: 0; }
+  60% { transform: scale(1) rotate(-3deg); opacity: 1; }
+  100% { transform: scale(1) rotate(-3deg); opacity: 0.8; }
+}
+
+@keyframes p5-flash {
+  0% { background-color: transparent; }
+  50% { background-color: rgba(255, 0, 0, 0.3); }
+  100% { background-color: transparent; }
+}
+
+@keyframes p5-glow-pulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.1); }
+  50% { box-shadow: 0 0 25px rgba(255, 0, 0, 0.25); }
+}
+
+.animate-p5-slide-in {
+  animation: p5-slide-in 0.6s ease-out forwards;
+}
+
+.animate-p5-slide-in-left {
+  animation: p5-slide-in-left 0.5s ease-out forwards;
+}
+
+.animate-p5-stamp {
+  animation: p5-stamp 0.4s ease-out forwards;
+}
+
+/* Tear-page corner effect (experimental) */
+.tear-corner {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 56px;
+  height: 56px;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+.tear-corner::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent 50%, #FF0000 50%);
+  transition: all 0.3s ease;
+}
+.tear-corner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent 50%, #CC0000 50%);
+  transform: translate(-4px, -4px);
+  z-index: -1;
+  transition: all 0.3s ease;
+}
+.tear-corner:hover {
+  width: 84px;
+  height: 84px;
+}
+.tear-corner .tear-text {
+  position: absolute;
+  bottom: 8px;
+  right: 6px;
+  font-size: 9px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+  text-align: right;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.tear-corner:hover .tear-text {
+  opacity: 1;
+}
+
+/* Scrollbar hide */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
