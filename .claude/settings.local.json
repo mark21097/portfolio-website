@@ -3,7 +3,10 @@
     "allow": [
       "WebFetch(domain:codepen.io)",
       "WebFetch(domain:ridwankhan.com)",
-      "WebFetch(domain:medium.com)"
+      "WebFetch(domain:medium.com)",
+      "Bash(npm run build:*)",
+      "Bash(gh auth status:*)",
+      "Bash(git config:*)"
     ]
   }
 }

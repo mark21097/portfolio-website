@@ -170,3 +170,108 @@
 /* Scrollbar hide */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Resume modal styles — Persona 5 inspired */
+.resume-modal.hidden { display: none; }
+.resume-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  pointer-events: auto;
+}
+.resume-modal .resume-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  transition: opacity .25s ease;
+}
+.resume-modal.open .resume-overlay { opacity: 1; }
+
+.resume-card {
+  position: relative;
+  width: min(1100px, 96%);
+  max-height: 86vh;
+  background: linear-gradient(0deg, #fff 0%, #fff 100%);
+  border: 6px solid #111;
+  box-shadow: 18px 12px 0 rgba(255,0,23,0.95);
+  transform: rotate(-2deg);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 1210;
+  animation: resumePop .28s cubic-bezier(.2,.9,.3,1);
+}
+.resume-title {
+  font-size: 1.15rem;
+  letter-spacing: 1px;
+  color: #111;
+  font-weight: 800;
+}
+.resume-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.resume-close {
+  background: transparent;
+  border: none;
+  color: #111;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: .25rem .5rem;
+}
+.resume-body {
+  flex: 1 1 auto;
+  overflow: hidden;
+  display: flex;
+}
+.resume-embed-wrap {
+  flex: 1 1 auto;
+  background: #fafafa;
+  border: 2px dashed rgba(0,0,0,0.06);
+  overflow: auto;
+  min-height: 40vh;
+}
+.resume-iframe {
+  width: 100%;
+  height: 72vh;
+  border: none;
+  display: block;
+}
+.resume-card-foot {
+  display: flex;
+  justify-content: center;
+  padding-top: .5rem;
+}
+.resume-download-btn {
+  display: inline-block;
+  background: #ff0000;
+  color: #ffffff;
+  font-weight: 800;
+  padding: .9rem 1.15rem;
+  text-decoration: none;
+  transform: skewX(-12deg);
+  box-shadow: 8px 6px 0 rgba(0,0,0,0.35);
+}
+.resume-download-btn:hover { filter: brightness(.95); }
+
+@keyframes resumePop {
+  0% { transform: scale(.9) rotate(-6deg); opacity: 0; }
+  60% { transform: scale(1.02) rotate(2deg); opacity: 1; }
+  100% { transform: scale(1) rotate(-2deg); opacity: 1; }
+}
+
+/* Responsive: smaller devices */
+@media (max-width: 640px) {
+  .resume-card { transform: none; border-width: 4px; padding: .75rem; }
+  .resume-iframe { height: 56vh; }
+  .resume-download-btn { padding: .65rem .9rem; }
+}

@@ -20,11 +20,11 @@ export interface AboutItem {
 
 // ---- Social Stats (P5R style) ----
 export const stats: Stat[] = [
-  { name: 'Knowledge', rank: 5, rankLabel: 'Erudite', description: 'CS fundamentals, ML, algorithms' },
-  { name: 'Guts', rank: 4, rankLabel: 'Lionhearted', description: 'Debugging, deployment, DevOps' },
-  { name: 'Proficiency', rank: 5, rankLabel: 'Transcendent', description: 'Python, C++, React, full stack' },
-  { name: 'Kindness', rank: 4, rankLabel: 'Selfless', description: 'Teamwork, mentoring, community' },
-  { name: 'Charm', rank: 4, rankLabel: 'Debonair', description: 'UI/UX, communication, design' },
+  { name: 'Knowledge', rank: 5, rankLabel: 'Advanced', description: 'CS fundamentals, ML, algorithms' },
+  { name: 'Team Work', rank: 4, rankLabel: 'Supportive', description: 'Debugging, deployment, DevOps' },
+  { name: 'Adaptability', rank: 5, rankLabel: 'Transcendent', description: 'Python, C++, React, full stack' },
+  { name: 'Analytical', rank: 4, rankLabel: 'Attention to Detail', description: 'Teamwork, mentoring, community' },
+  { name: 'Driven', rank: 5, rankLabel: 'Visionary', description: 'UI/UX, communication, design' },
 ];
 
 // ---- About Me ----
@@ -40,7 +40,7 @@ export const aboutInfo: AboutItem[] = [
 export const showcaseProjects: Project[] = [
   { // Project 1
     title: 'KapeChat',
-    desc: 'Multi-Transit Recommendation Engine',
+    desc: 'Mentorship and Matching System for Students',
     longDesc: 'A full-stack recommendation engine that helps UCI students navigate multi-transit routes. Built with FastAPI backend and containerized with Docker for scalable deployment.',
     tech: ['FastAPI', 'Docker', 'Python', 'REST API'],
     link: '#',
@@ -55,10 +55,10 @@ export const showcaseProjects: Project[] = [
   },
 
   { // Project 3
-    title: "Lucifer's Colosseum",
-    desc: 'Action RPG Built in Godot',
-    longDesc: 'A custom action RPG featuring hand-crafted hitbox/hurtbox combat systems, enemy AI state machines, and dynamic level progression. A passion project blending game design with software engineering.',
-    tech: ['Godot', 'GDScript', 'Game Design', 'AI'],
+    title: "TalentLens",
+    desc: 'End-to-End NLP Job Market Analysis',
+    longDesc: 'Built a data science pipeline analyzing over 100,000 job postings to identify hiring trends and skill demands. Performed data cleaning and feature engineering on unstructured text to extract skill keywords, and trained supervised NLP classification models to predict job role categories with 85%+ accuracy',
+    tech: ['Python', 'SQL', 'Natural Language Processing', 'Machine Learning', 'Data Analysis'],
     link: '#',
   },
 ];
@@ -67,13 +67,9 @@ export const showcaseProjects: Project[] = [
 export const completedProjects: Project[] = [
   { title: 'ZotRoute', desc: 'Multi-Transit Recommendation Engine for UCI (FastAPI/Docker)' },
   { title: 'KapeChat', desc: 'Matching and auth systems for 100+ users (React/Firebase)' },
-  { title: "Lucifer's Colosseum", desc: 'Godot Action RPG featuring custom Hitbox/Hurtbox systems' },
-  { title: 'Checkers AI Agent', desc: 'MCTS-based AI agent using C++ and UCT formula' },
-  { title: 'HealthSync AI', desc: 'Context-aware recommendation engine (Next.js/Pinecone)' },
-  { title: 'DiaPredict', desc: 'Hospital Readmission ML Classification Suite (Python/PyTorch)' },
-  { title: 'Symphony In Slime', desc: 'Precision Rhythm Engine and Scoring Logic in Unity/C#' },
+  { title: 'Sudoku AI Agent', desc: 'MCTS-based AI agent using C++ and UCT formula' },
+  { title: 'ChurnSight', desc: 'Context-aware recommendation engine (Next.js/Pinecone)' },
   { title: 'Search Engine Architecture', desc: 'High-Performance Web Crawler and Inverted Index' },
-  { title: 'SamaSama', desc: 'Centralized Community Platform (React/Node.js/Supabase)' },
   { title: 'Personal Blog', desc: 'WordPress site deployed on Oracle Cloud Infrastructure' },
 ];
 

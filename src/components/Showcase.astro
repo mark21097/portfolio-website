@@ -2,9 +2,9 @@
 import { showcaseProjects } from '../data/portfolio';
 ---
 
-<section id="showcase" class="relative z-10 py-24">
+<section id="showcase" class="relative z-10 py-24 px-8 md:px-16">
   <!-- Section header -->
-  <div class="px-8 md:px-16 mb-16">
+  <div class="mb-16">
     <div class="relative inline-block">
       <h2 class="font-p5 text-5xl md:text-7xl uppercase text-white tracking-tight">Showcase</h2>
       <div class="absolute -bottom-2 left-0 w-full h-2 bg-p5-red -skew-x-12"></div>
@@ -13,42 +13,51 @@ import { showcaseProjects } from '../data/portfolio';
   </div>
 
   {showcaseProjects.map((project, i) => (
-    <div class="relative overflow-hidden mb-12" data-animate>
-      <!-- Diagonal red stripe background -->
-      <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class={`absolute w-[150%] h-full ${i % 2 === 0 ? '-rotate-2' : 'rotate-2'} scale-110 bg-p5-red/8`}></div>
-      </div>
+    <div class="relative mb-14 group" data-animate>
+      <!-- Card with visible border frame -->
+      <div class="relative bg-p5-gray/60 border-2 border-p5-red/30 overflow-hidden
+                  shadow-[6px_6px_0px_rgba(255,0,0,0.15)]
+                  transition-shadow duration-300 hover:shadow-[8px_8px_0px_rgba(255,0,0,0.25)]">
 
-      <div class="relative z-10 px-8 md:px-16 py-16 flex flex-col lg:flex-row gap-10 items-center">
-        <!-- Project title side -->
-        <div class="lg:w-1/2">
-          <span class="font-p5-body text-p5-red text-sm tracking-[0.3em]">FEATURED TARGET #{String(i + 1).padStart(2, '0')}</span>
-          <h3 class="font-p5 text-5xl md:text-7xl uppercase text-white mt-3 leading-none
-                     [text-shadow:4px_4px_0px_#FF0000]">{project.title}</h3>
-          <p class="font-p5-body text-white/50 text-lg mt-2 tracking-wider uppercase">{project.desc}</p>
+        <!-- Diagonal red accent stripe inside card -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+          <div class={`absolute w-[150%] h-full ${i % 2 === 0 ? '-rotate-2' : 'rotate-2'} scale-110 bg-p5-red/8`}></div>
         </div>
 
-        <!-- Details side -->
-        <div class="lg:w-1/2">
-          <p class="font-p5-body text-white/80 text-lg leading-relaxed tracking-wide mb-6">{project.longDesc}</p>
+        <!-- Red left accent bar -->
+        <div class="absolute left-0 top-0 bottom-0 w-2 bg-p5-red"></div>
 
-          <!-- Tech tags -->
-          {project.tech && (
-            <div class="flex flex-wrap gap-2 mb-8">
-              {project.tech.map((t) => (
-                <span class="bg-p5-red/15 border border-p5-red/50 text-p5-red px-4 py-1
-                            font-p5-body text-sm -skew-x-6 tracking-wider">
-                  <span class="skew-x-6 inline-block">{t}</span>
-                </span>
-              ))}
-            </div>
-          )}
+        <div class="relative z-10 px-8 md:px-12 py-14 flex flex-col lg:flex-row gap-10 items-center">
+          <!-- Project title side -->
+          <div class="lg:w-1/2">
+            <span class="font-p5-body text-p5-red text-sm tracking-[0.3em]">FEATURED TARGET #{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="font-p5 text-5xl md:text-7xl uppercase text-white mt-3 leading-none
+                       [text-shadow:3px_3px_0px_#CC0000]">{project.title}</h3>
+            <p class="font-p5-body text-white/50 text-lg mt-2 tracking-wider uppercase">{project.desc}</p>
+          </div>
 
+          <!-- Details side -->
+          <div class="lg:w-1/2">
+            <p class="font-p5-body text-white/80 text-lg leading-relaxed tracking-wide mb-6">{project.longDesc}</p>
+
+            <!-- Tech tags -->
+            {project.tech && (
+              <div class="flex flex-wrap gap-2">
+                {project.tech.map((t) => (
+                  <span class="bg-p5-red/15 border border-p5-red/50 text-p5-red px-4 py-1
+                              font-p5-body text-sm -skew-x-6 tracking-wider">
+                    <span class="skew-x-6 inline-block">{t}</span>
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-      <!-- Tear-page corner -->
-      <div class="tear-corner">
-        <span class="tear-text font-p5-body">Click<br/>to Reveal</span>
+
+        <!-- Tear-page corner (now inside the bounded card) -->
+        <div class="tear-corner">
+          <span class="tear-text font-p5-body">Click<br/>to Reveal</span>
+        </div>
       </div>
     </div>
   ))}

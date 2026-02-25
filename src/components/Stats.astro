@@ -2,10 +2,10 @@
 import { stats } from '../data/portfolio';
 
 // Pentagon vertex positions (5 points, starting from top, going clockwise)
-// Using a coordinate system centered at (200, 200) with max radius 150
-const cx = 200;
-const cy = 200;
-const maxR = 150;
+// Centered at (250, 250) with max radius 140, in a 500x500 viewBox for label room
+const cx = 250;
+const cy = 250;
+const maxR = 140;
 const angles = [-90, -18, 54, 126, 198]; // degrees for: top, top-right, bottom-right, bottom-left, top-left
 
 function polarToXY(angleDeg: number, radius: number): [number, number] {
@@ -13,7 +13,6 @@ function polarToXY(angleDeg: number, radius: number): [number, number] {
   return [cx + radius * Math.cos(rad), cy + radius * Math.sin(rad)];
 }
 
-// Outer pentagon (max boundary)
 // Stat polygon (scaled by rank/5)
 const statPoints = stats.map((s, i) => polarToXY(angles[i], maxR * (s.rank / 5)));
 const statPath = statPoints.map((p, i) => `${i === 0 ? 'M' : 'L'}${p[0]},${p[1]}`).join(' ') + ' Z';
@@ -36,8 +35,9 @@ stats.forEach((s, i) => {
   }
 });
 
-// Label positions (pushed further out)
-const labelPositions = angles.map(a => polarToXY(a, maxR + 55));
+// Label positions (pushed further out with more room)
+const labelRadius = maxR + 50;
+const labelPositions = angles.map(a => polarToXY(a, labelRadius));
 ---
 
 <section id="stats" class="relative z-10 px-8 md:px-16 py-24 p5-halftone">
@@ -64,8 +64,8 @@ const labelPositions = angles.map(a => polarToXY(a, maxR + 55));
 
     <!-- Radar Chart Container -->
     <div id="stats-container" class="hidden opacity-0 transition-opacity duration-500 flex justify-center">
-      <div class="relative w-full max-w-xl">
-        <svg viewBox="0 0 400 400" class="w-full h-auto">
+      <div class="relative w-full max-w-2xl">
+        <svg viewBox="0 0 500 500" class="w-full h-auto" overflow="visible">
           <defs>
             <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#FFD700" />
@@ -99,7 +99,7 @@ const labelPositions = angles.map(a => polarToXY(a, maxR + 55));
 
           <!-- Dots along axes -->
           {dots.map((dot) => (
-            <circle cx={dot.x} cy={dot.y} r="3"
+            <circle cx={dot.x} cy={dot.y} r="3.5"
                     fill={dot.filled ? "#FFD700" : "rgba(255,255,255,0.2)"}
                     stroke={dot.filled ? "#FFA500" : "rgba(255,255,255,0.1)"}
                     stroke-width="1" />
@@ -108,24 +108,25 @@ const labelPositions = angles.map(a => polarToXY(a, maxR + 55));
           <!-- Stat labels -->
           {stats.map((stat, i) => {
             const [lx, ly] = labelPositions[i];
-            const anchor = lx < 150 ? 'end' : lx > 250 ? 'start' : 'middle';
+            const anchor = lx < 200 ? 'end' : lx > 300 ? 'start' : 'middle';
+            // Offset the yellow box position based on anchor
+            const boxX = anchor === 'end' ? lx - 100 : anchor === 'start' ? lx - 5 : lx - 50;
             return (
               <g>
                 {/* Stat name - yellow highlight box */}
-                <rect x={anchor === 'end' ? lx - 90 : anchor === 'start' ? lx - 5 : lx - 45}
-                      y={ly - 16} width="95" height="22" fill="#FFD700" rx="2"
-                      transform={`rotate(${Math.random() * 6 - 3}, ${lx}, ${ly})`} />
-                <text x={lx} y={ly} text-anchor={anchor}
-                      class="font-p5-accent" fill="#0D0D0D" font-size="14" font-weight="bold">
+                <rect x={boxX} y={ly - 18} width="105" height="24" fill="#FFD700" rx="2"
+                      transform={`rotate(${(i * 7 % 5) - 2}, ${lx}, ${ly})`} />
+                <text x={lx} y={ly + 1} text-anchor={anchor}
+                      class="font-p5-accent" fill="#0D0D0D" font-size="15" font-weight="bold">
                   {stat.name}
                 </text>
                 {/* MAX / rank label */}
-                <text x={lx} y={ly + 18} text-anchor={anchor}
-                      class="font-p5-body" fill="#FFD700" font-size="13" font-weight="bold">
+                <text x={lx} y={ly + 20} text-anchor={anchor}
+                      class="font-p5-body" fill="#FFD700" font-size="14" font-weight="bold">
                   {stat.rank >= 5 ? 'MAX' : `${stat.rank}/5`}
                 </text>
-                <text x={lx} y={ly + 34} text-anchor={anchor}
-                      class="font-p5-body" fill="rgba(255,255,255,0.5)" font-size="11">
+                <text x={lx} y={ly + 36} text-anchor={anchor}
+                      class="font-p5-body" fill="rgba(255,255,255,0.5)" font-size="12">
                   {stat.rankLabel}
                 </text>
               </g>

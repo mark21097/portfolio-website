@@ -12,8 +12,8 @@
   <div class="flex flex-wrap gap-6 mb-20">
     {[
       { label: 'EMAIL', href: 'mailto:placeholder@email.com' },
-      { label: 'GITHUB', href: '#' },
-      { label: 'LINKEDIN', href: '#' },
+      { label: 'GITHUB', href: 'https://github.com/mark21097' },
+      { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/mark-phouiphiphath' },
     ].map((link) => (
       <a href={link.href}
          class="inline-block bg-p5-red text-white font-p5 px-8 py-3 -skew-x-12 text-xl
@@ -41,18 +41,150 @@
         Your heart will be stolen by our craft.
       </p>
       <p class="font-p5-accent text-lg mt-6 text-p5-red">
-        &mdash; The Phantom Developer, Mark Valinh Phouiphiphath
+        &mdash; Mark Valinh Phouiphiphath
       </p>
 
       <div class="mt-8 flex justify-center">
-        <a href="#"
-           class="inline-block bg-p5-red text-white font-p5 px-8 py-3
-                  -skew-x-12 shadow-[4px_4px_0px_black]
-                  hover:shadow-[6px_6px_0px_black] hover:translate-x-[-2px] hover:translate-y-[-2px]
-                  transition-all uppercase text-lg tracking-wider">
-          <span class="skew-x-12 inline-block">DOWNLOAD CALLING CARD (RESUME)</span>
-        </a>
+        <button id="resume-reveal-btn"
+                class="inline-block bg-p5-red text-white font-p5 px-8 py-3
+                       -skew-x-12 shadow-[4px_4px_0px_black]
+                       hover:shadow-[6px_6px_0px_black] hover:translate-x-[-2px] hover:translate-y-[-2px]
+                       transition-all uppercase text-lg tracking-wider"
+                type="button">
+          <span class="skew-x-12 inline-block">Reveal Resume</span>
+        </button>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Resume modal -->
+<div id="resume-modal" class="resume-modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="resume-title">
+  <div id="resume-modal-overlay" class="resume-overlay"></div>
+
+  <div class="resume-card" role="document">
+    <header class="resume-card-header">
+      <h3 id="resume-title" class="resume-title">MARK PHOUIPHIPHATH — RESUME</h3>
+    </header>
+
+    <div class="resume-body">
+      <div class="resume-embed-wrap">
+        <div id="resume-loader" class="resume-loader">Loading resume…</div>
+        <iframe id="resume-iframe" class="resume-iframe" src="" loading="lazy" title="Mark Phouiphiphath Resume (PDF)"></iframe>
+        <div id="resume-fallback" class="resume-fallback hidden">
+          <p>Resume could not be displayed. <a id="resume-open-new" href="/mark_phouiphiphath_ds_resume.pdf" target="_blank" rel="noopener">Open in new tab</a></p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="resume-card-foot">
+      <button id="resume-modal-close" class="resume-download-btn" type="button">Close</button>
+    </footer>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const openBtn = document.getElementById('resume-reveal-btn');
+    const modal = document.getElementById('resume-modal');
+    const closeBtn = document.getElementById('resume-modal-close');
+    const overlay = document.getElementById('resume-modal-overlay');
+    const iframe = document.getElementById('resume-iframe');
+    const loader = document.getElementById('resume-loader');
+    const fallback = document.getElementById('resume-fallback');
+    let lastFocused = null;
+
+    if (!openBtn || !modal) return;
+
+    function openModal() {
+      lastFocused = document.activeElement;
+      modal.classList.remove('hidden');
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      if (iframe && !iframe.src) {
+        if (loader) loader.classList.remove('hidden');
+        if (fallback) fallback.classList.add('hidden');
+        // try iframe first
+        iframe.src = '/mark_phouiphiphath_ds_resume.pdf';
+        // also attempt object fallback after a short delay if iframe fails
+        setTimeout(function () {
+          if (iframe && iframe.getAttribute('data-loaded') !== 'true') {
+            tryObjectFallback();
+          }
+        }, 1200);
+      }
+      document.body.style.overflow = 'hidden';
+      const first = modal.querySelector('button, a, [tabindex]:not([tabindex="-1"])');
+      if (first) first.focus();
+      document.addEventListener('keydown', onKeyDown);
+    }
+
+    function tryObjectFallback() {
+      // if iframe failed to render, create an <object> as a secondary attempt
+      if (!iframe) return;
+      // don't create multiple times
+      if (document.getElementById('resume-object')) return;
+      const obj = document.createElement('object');
+      obj.id = 'resume-object';
+      obj.type = 'application/pdf';
+      obj.data = '/mark_phouiphiphath_ds_resume.pdf';
+      obj.className = iframe.className || 'resume-iframe';
+      obj.width = '100%';
+      obj.height = '72vh';
+      obj.setAttribute('aria-label', 'Resume PDF');
+      obj.addEventListener('load', function () {
+        if (loader) loader.classList.add('hidden');
+        if (fallback) fallback.classList.add('hidden');
+        iframe.style.display = 'none';
+      });
+      obj.addEventListener('error', function () {
+        if (loader) loader.classList.add('hidden');
+        if (fallback) fallback.classList.remove('hidden');
+      });
+      iframe.parentNode.appendChild(obj);
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.classList.add('hidden');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+      document.removeEventListener('keydown', onKeyDown);
+    }
+
+    function onKeyDown(e) {
+      if (e.key === 'Escape') { e.preventDefault(); closeModal(); return; }
+      if (e.key === 'Tab') {
+        const focusable = modal.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+          if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      }
+    }
+
+    openBtn.addEventListener('click', function (e) { e.preventDefault(); openModal(); });
+    closeBtn && closeBtn.addEventListener('click', function (e) { e.preventDefault(); closeModal(); });
+    overlay && overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+
+    // iframe load/error handling
+    if (iframe) {
+      iframe.addEventListener('load', function () {
+        // mark loaded and hide loader
+        iframe.setAttribute('data-loaded', 'true');
+        if (loader) loader.classList.add('hidden');
+        if (fallback) fallback.classList.add('hidden');
+      });
+      iframe.addEventListener('error', function () {
+        if (loader) loader.classList.add('hidden');
+        // try object fallback
+        tryObjectFallback();
+      });
+    }
+  })();
+</script>
