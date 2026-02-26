@@ -167,6 +167,104 @@
   opacity: 1;
 }
 
+/* P5R Dialogue Box */
+.p5-dialogue {
+  position: relative;
+  margin-top: 3rem;
+  padding: 0 2rem;
+}
+
+.p5-dialogue-name {
+  display: inline-block;
+  background: #fff;
+  color: #0D0D0D;
+  padding: 0.35rem 1.5rem;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  position: relative;
+  margin-left: 3rem;
+  margin-bottom: -3px;
+  z-index: 2;
+  clip-path: polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%);
+}
+
+.p5-dialogue-box {
+  position: relative;
+  background: #0D0D0D;
+  border: 3px solid #fff;
+  padding: 1.75rem 2.5rem;
+  clip-path: polygon(
+    0% 8%, 3% 0%, 97% 0%, 100% 8%,
+    100% 92%, 97% 100%, 3% 100%, 0% 92%
+  );
+}
+
+/* Left arrow tail */
+.p5-dialogue-box::before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 16px solid transparent;
+  border-bottom: 16px solid transparent;
+  border-right: 30px solid #fff;
+  z-index: 1;
+}
+.p5-dialogue-box::after {
+  content: '';
+  position: absolute;
+  left: -22px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  border-right: 25px solid #0D0D0D;
+  z-index: 2;
+}
+
+/* Right arrow decoration */
+.p5-dialogue-arrow-right {
+  position: absolute;
+  right: -28px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 16px solid transparent;
+  border-bottom: 16px solid transparent;
+  border-left: 30px solid #fff;
+  z-index: 1;
+}
+.p5-dialogue-arrow-right::after {
+  content: '';
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  border-left: 25px solid #0D0D0D;
+}
+
+/* Outer border wrapper for the double-line effect */
+.p5-dialogue-outer {
+  position: relative;
+  border: 3px solid #fff;
+  padding: 4px;
+  clip-path: polygon(
+    0% 6%, 2% 0%, 98% 0%, 100% 6%,
+    100% 94%, 98% 100%, 2% 100%, 0% 94%
+  );
+}
+
 /* Scrollbar hide */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -248,7 +346,8 @@
 }
 .resume-card-foot {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: .5rem;
   padding-top: .5rem;
 }
 .resume-download-btn {

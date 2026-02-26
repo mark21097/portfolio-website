@@ -15,7 +15,7 @@
       { label: 'GITHUB', href: 'https://github.com/mark21097' },
       { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/mark-phouiphiphath' },
     ].map((link) => (
-      <a href={link.href}
+      <a href={link.href} target="_blank" rel="noopener"
          class="inline-block bg-p5-red text-white font-p5 px-8 py-3 -skew-x-12 text-xl
                 shadow-[4px_4px_0px_black] hover:shadow-[6px_6px_0px_black]
                 hover:translate-x-[-2px] hover:translate-y-[-2px]
@@ -68,80 +68,83 @@
     </header>
 
     <div class="resume-body">
-      <div class="resume-embed-wrap">
-        <div id="resume-loader" class="resume-loader">Loading resume…</div>
-        <iframe id="resume-iframe" class="resume-iframe" src="" loading="lazy" title="Mark Phouiphiphath Resume (PDF)"></iframe>
-        <div id="resume-fallback" class="resume-fallback hidden">
-          <p>Resume could not be displayed. <a id="resume-open-new" href="/mark_phouiphiphath_ds_resume.pdf" target="_blank" rel="noopener">Open in new tab</a></p>
-        </div>
+      <div id="resume-embed-wrap" class="resume-embed-wrap">
+        <!-- PDF gets injected here dynamically -->
       </div>
     </div>
 
     <footer class="resume-card-foot">
-      <button id="resume-modal-close" class="resume-download-btn" type="button">Close</button>
+      <a href="/mark_phouiphiphath_ds_resume.pdf" target="_blank" rel="noopener" class="resume-download-btn">
+        Open in New Tab
+      </a>
+      <a href="/mark_phouiphiphath_ds_resume.pdf" download class="resume-download-btn" style="margin-left:.5rem;">
+        Download
+      </a>
+      <button id="resume-modal-close" class="resume-download-btn" type="button" style="margin-left:.5rem;">Close</button>
     </footer>
   </div>
 </div>
 
 <script>
   (function () {
+    const PDF_URL = '/mark_phouiphiphath_ds_resume.pdf';
     const openBtn = document.getElementById('resume-reveal-btn');
     const modal = document.getElementById('resume-modal');
     const closeBtn = document.getElementById('resume-modal-close');
     const overlay = document.getElementById('resume-modal-overlay');
-    const iframe = document.getElementById('resume-iframe');
-    const loader = document.getElementById('resume-loader');
-    const fallback = document.getElementById('resume-fallback');
+    const embedWrap = document.getElementById('resume-embed-wrap');
     let lastFocused = null;
+    let pdfInjected = false;
 
-    if (!openBtn || !modal) return;
+    if (!openBtn || !modal || !embedWrap) return;
+
+    async function injectPDF() {
+      if (pdfInjected) return;
+      pdfInjected = true;
+      embedWrap.innerHTML = '<p style="text-align:center;padding:2rem;color:#999;">Loading resume...</p>';
+
+      try {
+        var pdfjsLib = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.min.mjs');
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.worker.min.mjs';
+
+        var pdf = await pdfjsLib.getDocument(PDF_URL).promise;
+        embedWrap.innerHTML = '';
+        embedWrap.style.overflowY = 'auto';
+
+        // Render at 2x for crisp quality; CSS width:100% auto-fits to container
+        for (var i = 1; i <= pdf.numPages; i++) {
+          var page = await pdf.getPage(i);
+          var viewport = page.getViewport({ scale: 2 });
+          var canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          canvas.style.width = '100%';
+          canvas.style.height = 'auto';
+          canvas.style.display = 'block';
+          var ctx = canvas.getContext('2d');
+          await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+          embedWrap.appendChild(canvas);
+        }
+      } catch (err) {
+        console.error('PDF render error:', err);
+        embedWrap.innerHTML =
+          '<p style="text-align:center;padding:2rem;font-size:1.1rem;color:#333;">' +
+          'Could not load PDF preview.<br/>' +
+          '<a href="' + PDF_URL + '" target="_blank" rel="noopener" ' +
+          'style="color:#ff0000;font-weight:bold;text-decoration:underline;">Open Resume in New Tab</a></p>';
+      }
+    }
 
     function openModal() {
       lastFocused = document.activeElement;
       modal.classList.remove('hidden');
       modal.classList.add('open');
       modal.setAttribute('aria-hidden', 'false');
-      if (iframe && !iframe.src) {
-        if (loader) loader.classList.remove('hidden');
-        if (fallback) fallback.classList.add('hidden');
-        // try iframe first
-        iframe.src = '/mark_phouiphiphath_ds_resume.pdf';
-        // also attempt object fallback after a short delay if iframe fails
-        setTimeout(function () {
-          if (iframe && iframe.getAttribute('data-loaded') !== 'true') {
-            tryObjectFallback();
-          }
-        }, 1200);
-      }
       document.body.style.overflow = 'hidden';
+      injectPDF();
       const first = modal.querySelector('button, a, [tabindex]:not([tabindex="-1"])');
       if (first) first.focus();
       document.addEventListener('keydown', onKeyDown);
-    }
-
-    function tryObjectFallback() {
-      // if iframe failed to render, create an <object> as a secondary attempt
-      if (!iframe) return;
-      // don't create multiple times
-      if (document.getElementById('resume-object')) return;
-      const obj = document.createElement('object');
-      obj.id = 'resume-object';
-      obj.type = 'application/pdf';
-      obj.data = '/mark_phouiphiphath_ds_resume.pdf';
-      obj.className = iframe.className || 'resume-iframe';
-      obj.width = '100%';
-      obj.height = '72vh';
-      obj.setAttribute('aria-label', 'Resume PDF');
-      obj.addEventListener('load', function () {
-        if (loader) loader.classList.add('hidden');
-        if (fallback) fallback.classList.add('hidden');
-        iframe.style.display = 'none';
-      });
-      obj.addEventListener('error', function () {
-        if (loader) loader.classList.add('hidden');
-        if (fallback) fallback.classList.remove('hidden');
-      });
-      iframe.parentNode.appendChild(obj);
     }
 
     function closeModal() {
@@ -171,20 +174,5 @@
     openBtn.addEventListener('click', function (e) { e.preventDefault(); openModal(); });
     closeBtn && closeBtn.addEventListener('click', function (e) { e.preventDefault(); closeModal(); });
     overlay && overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
-
-    // iframe load/error handling
-    if (iframe) {
-      iframe.addEventListener('load', function () {
-        // mark loaded and hide loader
-        iframe.setAttribute('data-loaded', 'true');
-        if (loader) loader.classList.add('hidden');
-        if (fallback) fallback.classList.add('hidden');
-      });
-      iframe.addEventListener('error', function () {
-        if (loader) loader.classList.add('hidden');
-        // try object fallback
-        tryObjectFallback();
-      });
-    }
   })();
 </script>
