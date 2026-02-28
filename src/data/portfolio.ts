@@ -21,9 +21,9 @@ export interface AboutItem {
 // ---- Social Stats (P5R style) ----
 export const stats: Stat[] = [
   { name: 'Knowledge', rank: 5, rankLabel: 'Advanced', description: 'CS fundamentals, ML, algorithms' },
-  { name: 'Team Work', rank: 4, rankLabel: 'Supportive', description: 'Debugging, deployment, DevOps' },
+  { name: 'Team Work', rank: 4, rankLabel: 'Supportive', description: 'Collaboration, mentoring, Agile workflows' },
   { name: 'Adaptability', rank: 5, rankLabel: 'Transcendent', description: 'Python, C++, React, full stack' },
-  { name: 'Analytical', rank: 4, rankLabel: 'Attention to Detail', description: 'Teamwork, mentoring, community' },
+  { name: 'Analytical', rank: 4, rankLabel: 'Attention to Detail', description: 'Debugging, data analysis, problem solving' },
   { name: 'Driven', rank: 5, rankLabel: 'Visionary', description: 'UI/UX, communication, design' },
 ];
 
@@ -65,20 +65,25 @@ export const showcaseProjects: Project[] = [
 
 // ---- All Completed Projects ----
 export const completedProjects: Project[] = [
-  { title: 'ZotRoute', desc: 'Multi-Transit Recommendation Engine for UCI (FastAPI/Docker)' },
+  { title: 'ZotSwap', desc: 'Matching System for UCI Students to swap skills(React/Firebase)' },
   { title: 'KapeChat', desc: 'Matching and auth systems for 100+ users (React/Firebase)' },
   { title: 'Sudoku AI Agent', desc: 'MCTS-based AI agent using C++ and UCT formula' },
   { title: 'ChurnSight', desc: 'Context-aware recommendation engine (Next.js/Pinecone)' },
   { title: 'Search Engine Architecture', desc: 'High-Performance Web Crawler and Inverted Index' },
   { title: 'Personal Blog', desc: 'WordPress site deployed on Oracle Cloud Infrastructure' },
+  { title: 'TalentLens', desc: 'End-to-end NLP job market analysis pipeline (Python/SQL)' },
+  { title: 'Personal Portfolio', desc: 'Responsive portfolio website built with Astro and Tailwind CSS' },
+  { title: 'Columns in Python', desc: 'Tetris-style game implemented with Pygame' },
+  { title: 'Senti-IDMB of Movie Reviews', desc: 'NLP project using NLTK and scikit-learn to classify movie reviews as positive or negative' },
 ];
 
 // ---- Nav Items ----
 export const navItems = [
   { id: 'home', label: 'HOME' },
   { id: 'about', label: 'ABOUT' },
+  { id: 'experience', label: 'EXPERIENCE' },
   { id: 'stats', label: 'STATS' },
   { id: 'showcase', label: 'SHOWCASE' },
   { id: 'projects', label: 'PROJECTS' },
-  { id: 'resume', label: 'RESUME' },
+  { id: 'resume', label: 'CONTACT' },
 ];

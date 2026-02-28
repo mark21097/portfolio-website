@@ -1,0 +1,70 @@
+---
+const experiences = [
+  {
+    company: 'Boundary RSS',
+    location: 'Remote',
+    title: 'Data Scientist & ML Engineer Intern',
+    date: 'Jan 2026 – Present',
+    bullets: [
+      'Analyzed large-scale structured sensor and operational datasets, improving data reliability and downstream modeling performance by 30%.',
+      'Built and evaluated classification and regression models using Python, Pandas, NumPy, and scikit-learn, achieving up to 25% improvement in predictive accuracy.',
+      'Designed data preprocessing and feature engineering pipelines (outlier handling, normalization, feature selection) that improved model generalization by 20%.',
+      'Collaborated within an Agile sprint framework with cross-functional engineering teams to deliver data pipeline milestones on schedule.',
+    ],
+  },
+  {
+    company: 'Fusion ICS Project',
+    location: 'Irvine, CA',
+    title: 'Project Developer – Full-Stack Development',
+    date: 'Nov 2024 – May 2025',
+    bullets: [
+      'Built and deployed a full-stack mentorship platform for 100+ students with Firebase Firestore, role-based auth, and a swipe-to-match algorithm.',
+      'Translated 15+ Figma wireframes into responsive UI components, reducing feature development time by 25%.',
+      'Collaborated with a team of 10+ developers and designers in an Agile workflow to ship profile creation, filtering, and a full matching pipeline.',
+    ],
+  },
+];
+---
+
+<section id="experience" class="relative z-10 px-8 md:px-16 py-24">
+  <!-- Section header -->
+  <div class="relative inline-block mb-16">
+    <h2 class="font-p5 text-5xl md:text-7xl uppercase text-white tracking-tight">Experience</h2>
+    <div class="absolute -bottom-2 left-0 w-full h-2 bg-p5-red -skew-x-12"></div>
+  </div>
+
+  <!-- Experience cards -->
+  <div class="space-y-10">
+    {experiences.map((exp) => (
+      <div class="border-l-4 border-p5-red pl-6 md:pl-10 relative" data-animate>
+        <!-- Red dot on the timeline -->
+        <div class="absolute -left-[11px] top-0 w-[18px] h-[18px] bg-p5-red rotate-45 shadow-[2px_2px_0px_black]"></div>
+
+        <!-- Header row: company badge + date -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-3">
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="bg-p5-red text-white px-4 py-1 -skew-x-12 font-p5-body text-sm
+                        shadow-[2px_2px_0px_black]">
+              <span class="skew-x-12 inline-block tracking-wider">{exp.company}</span>
+            </div>
+            <span class="font-p5-body text-white/40 text-sm tracking-wider">{exp.location}</span>
+          </div>
+          <span class="font-p5-body text-white/40 text-sm tracking-wider">{exp.date}</span>
+        </div>
+
+        <!-- Title -->
+        <h3 class="font-p5-body text-white text-xl md:text-2xl tracking-wide mb-4">{exp.title}</h3>
+
+        <!-- Bullets -->
+        <ul class="space-y-3">
+          {exp.bullets.map((bullet) => (
+            <li class="flex gap-3 items-start">
+              <span class="text-p5-red font-p5 text-xs mt-1.5 shrink-0">&#9654;</span>
+              <span class="font-p5-body text-white/70 text-base md:text-lg leading-relaxed tracking-wide">{bullet}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>

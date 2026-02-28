@@ -12,6 +12,13 @@
   --font-p5: "Anton", sans-serif;
   --font-p5-body: "Bebas Neue", sans-serif;
   --font-p5-accent: "Permanent Marker", cursive;
+
+  /* Ransom-note letter fonts (P5R main menu style) */
+  --font-p5-r1: "Arsenal", sans-serif;
+  --font-p5-r2: "Libre Baskerville", serif;
+  --font-p5-r3: "Oswald", sans-serif;
+  --font-p5-r4: "Raleway", sans-serif;
+  --font-p5-r5: "Anton", sans-serif;
 }
 
 /* P5R Background pattern - subtle halftone dots */

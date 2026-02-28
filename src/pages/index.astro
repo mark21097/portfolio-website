@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import AboutMe from '../components/AboutMe.astro';
+import Experience from '../components/Experience.astro';
 import Stats from '../components/Stats.astro';
 import Showcase from '../components/Showcase.astro';
 import Projects from '../components/Projects.astro';
@@ -17,6 +18,8 @@ import Footer from '../components/Footer.astro';
     <Hero />
     <SectionDivider />
     <AboutMe />
+    <SectionDivider />
+    <Experience />
     <SectionDivider />
     <Stats />
     <SectionDivider />
@@ -44,6 +47,77 @@ import Footer from '../components/Footer.astro';
     if (el && el.style) el.style.opacity = '0';
     observer.observe(el);
   });
+
+  // P5R ransom-note letter effect — mix fonts AND black/white visual treatments per letter
+  (function () {
+    var ransomEl = document.querySelector('[data-ransom]');
+    if (!ransomEl) return;
+
+    var fonts = [
+      '"Arsenal", sans-serif',
+      '"Libre Baskerville", serif',
+      '"Oswald", sans-serif',
+      '"Raleway", sans-serif',
+      '"Anton", sans-serif',
+    ];
+
+    // Each style mimics a different letter treatment from the P5 ransom alphabet:
+    // filled black box, white box, outlined, double border, etc.
+    var styles = [
+      // Black sticker — white text on black box with white border
+      { bg: '#0D0D0D', color: '#fff', border: '3px solid #fff',   padding: '2px 6px', textShadow: 'none' },
+      // White sticker — black text on white box with black border
+      { bg: '#ffffff', color: '#0D0D0D', border: '4px solid #0D0D0D', padding: '2px 6px', textShadow: 'none' },
+      // Outlined only — transparent bg, white text, white border
+      { bg: 'transparent', color: '#fff', border: '2.5px solid #fff', padding: '2px 5px', textShadow: 'none' },
+      // Bold black fill — white text, thicker white border
+      { bg: '#111', color: '#fff', border: '4px solid #fff',   padding: '1px 5px', textShadow: '0 0 0 #000' },
+      // Inverse outlined — white fill, black text, no box just thick outline
+      { bg: '#fff', color: '#000', border: '3px solid #000',   padding: '2px 5px', textShadow: 'none' },
+      // Double-stroke feel — dark bg, white text, bright white border
+      { bg: '#222', color: '#fff', border: '2px solid #fff',   padding: '3px 6px', textShadow: 'none' },
+      // Open style — transparent, white text, thin border
+      { bg: 'transparent', color: '#fff', border: '2px solid rgba(255,255,255,0.7)', padding: '2px 4px', textShadow: 'none' },
+    ];
+
+    var rotations = ['-3deg', '2deg', '-1.5deg', '2.5deg', '0deg', '-2deg', '1.5deg', '-1deg'];
+
+    var wordSpans = ransomEl.querySelectorAll('span');
+    var letterIndex = 0;
+
+    wordSpans.forEach(function (wordSpan) {
+      // Add spacing between letters in each word
+      wordSpan.style.letterSpacing = '0';
+      wordSpan.style.display = 'inline-flex';
+      wordSpan.style.alignItems = 'center';
+      wordSpan.style.gap = '3px';
+
+      var text = wordSpan.textContent || '';
+      wordSpan.textContent = '';
+
+      for (var i = 0; i < text.length; i++) {
+        var ch = text[i];
+        if (ch === ' ') {
+          wordSpan.appendChild(document.createTextNode('\u00a0'));
+          continue;
+        }
+        var st = styles[letterIndex % styles.length];
+        var s = document.createElement('span');
+        s.textContent = ch;
+        s.style.fontFamily = fonts[letterIndex % fonts.length];
+        s.style.display = 'inline-block';
+        s.style.transform = 'rotate(' + rotations[letterIndex % rotations.length] + ')';
+        s.style.background = st.bg;
+        s.style.color = st.color;
+        s.style.border = st.border;
+        s.style.padding = st.padding;
+        s.style.lineHeight = '1';
+        s.style.fontWeight = '900';
+        wordSpan.appendChild(s);
+        letterIndex++;
+      }
+    });
+  })();
 
   // Smooth scroll for nav links
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {

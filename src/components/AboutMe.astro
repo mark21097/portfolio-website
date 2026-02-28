@@ -47,6 +47,38 @@ import { aboutInfo } from '../data/portfolio';
         </div>
       ))}
     </div>
+
+    <!-- Tech Stack panel -->
+    <div class="shrink-0 w-64 lg:w-80" data-animate>
+      <div class="relative inline-block mb-6">
+        <h3 class="font-p5 text-3xl uppercase text-white tracking-tight">Tech Stack</h3>
+        <div class="absolute -bottom-1 left-0 w-full h-1 bg-p5-red -skew-x-12"></div>
+      </div>
+
+      {[
+        { label: 'LANGUAGES', skills: ['Python', 'TypeScript', 'JavaScript', 'C/C++', 'Java', 'R', 'Assembly'] },
+        { label: 'FRONTEND', skills: ['React', 'Next.js', 'HTML/CSS', 'Tailwind CSS'] },
+        { label: 'BACKEND', skills: ['FastAPI', 'Fastify', 'REST API'] },
+        { label: 'DATABASES', skills: ['PostgreSQL', 'SQL', 'Firebase'] },
+        { label: 'ML / AI', skills: ['Scikit-Learn', 'TensorFlow', 'PyTorch', 'Pandas', 'NumPy', 'NLTK'] },
+        { label: 'TOOLS', skills: ['Docker', 'AWS', 'Git', 'GitHub', 'GitLab'] },
+      ].map(group => (
+        <div class="mb-5">
+          <div class="bg-p5-red text-white px-3 py-0.5 -skew-x-12 font-p5-body text-sm
+                      inline-block mb-2 shadow-[2px_2px_0px_black]">
+            <span class="skew-x-12 inline-block tracking-wider">{group.label}</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            {group.skills.map(skill => (
+              <span class="font-p5-body text-base text-white/80 border border-p5-red/40
+                           px-2 py-0.5 -skew-x-6 bg-p5-gray/80 tracking-wide">
+                <span class="skew-x-6 inline-block">{skill}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   </div>
 
   <!-- P5R Dialogue Box -->
@@ -55,13 +87,12 @@ import { aboutInfo } from '../data/portfolio';
     <div class="p5-dialogue-outer">
       <div class="p5-dialogue-box">
         <p class="font-p5-body text-white text-lg md:text-xl leading-relaxed tracking-wide">
-          Hi, I'm Mark, a fourth-year CS student here at UCI, and I'm currently specializing in 
-          Intelligent Systems, which focuses on Machine Learning and AI. As of now, I'm currently working on
-          trying to break into the industry as a Data Science/ML Engineer and looking for a Summer 2026/Fall 2026
-          internship. 
-        </p>
-        <p class="font-p5-body text-white text-lg md:text-xl leading-relaxed tracking-wide mt-4">
-          [Placeholder]
+          Hi, I'm Mark — a fourth-year CS student at UCI specializing in Intelligent Systems.
+          I'm currently interning as a Data Scientist & ML Engineer at Boundary RSS, where I build
+          classification models and data pipelines that have improved predictive accuracy by 25%.
+          I love working at the intersection of machine learning and full-stack development, turning
+          raw data into real products. Right now, I'm looking for Summer/Fall 2026 opportunities
+          in Data Science or ML Engineering.
         </p>
         <!-- Right arrow decoration -->
         <div class="p5-dialogue-arrow-right"></div>
