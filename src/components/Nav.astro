@@ -2,19 +2,22 @@
 import { navItems } from '../data/portfolio';
 ---
 
-<!-- Desktop Nav: fixed right side -->
-<nav class="fixed right-0 top-1/2 -translate-y-1/2 z-[100] hidden md:flex flex-col gap-2" id="p5-nav">
-  {navItems.map((item) => (
-    <a href={`#${item.id}`}
-       class="group flex items-center justify-end">
-      <span class="bg-p5-red text-white font-p5-body text-base px-5 py-1.5
-                    -skew-x-12 translate-x-20 group-hover:translate-x-0
-                    transition-transform duration-300 shadow-[3px_3px_0px_black]
-                    tracking-wider">
-        <span class="skew-x-12 inline-block">{item.label}</span>
-      </span>
-    </a>
-  ))}
+<!-- Desktop Nav: fixed top bar -->
+<nav class="fixed top-0 left-0 right-0 z-[100] hidden md:block bg-p5-black/90 backdrop-blur-sm border-b border-p5-red/30" id="p5-nav">
+  <div class="flex items-center justify-center gap-1 lg:gap-2 px-4 py-2 max-w-7xl mx-auto">
+    {navItems.map((item) => (
+      <a href={`#${item.id}`}
+         class="group">
+        <span class="bg-p5-red text-white font-p5-body text-sm lg:text-base px-4 lg:px-5 py-1.5
+                      -skew-x-12 inline-block
+                      shadow-[2px_2px_0px_black] hover:shadow-[3px_3px_0px_black]
+                      hover:translate-x-[-1px] hover:translate-y-[-1px]
+                      transition-all duration-200 tracking-wider cursor-pointer">
+          <span class="skew-x-12 inline-block">{item.label}</span>
+        </span>
+      </a>
+    ))}
+  </div>
 </nav>
 
 <!-- Mobile Nav: hamburger -->

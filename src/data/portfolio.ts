@@ -18,7 +18,41 @@ export interface AboutItem {
   value: string;
 }
 
-// ---- Social Stats (P5R style) ----
+// ---- NeetCode 150 Progress ----
+export interface NeetCodeStats {
+  completed: number;
+  inProgress: number;
+  total: number;
+  categories: { name: string; completed: number; total: number }[];
+}
+
+export const neetcodeStats: NeetCodeStats = {
+  completed: 4,
+  inProgress: 0,
+  total: 150,
+  categories: [
+    { name: 'Arrays & Hashing', completed: 4, total: 9 },
+    { name: 'Two Pointers', completed: 0, total: 5 },
+    { name: 'Sliding Window', completed: 0, total: 6 },
+    { name: 'Stack', completed: 0, total: 7 },
+    { name: 'Binary Search', completed: 0, total: 7 },
+    { name: 'Linked List', completed: 0, total: 11 },
+    { name: 'Trees', completed: 0, total: 15 },
+    { name: 'Heap / Priority Queue', completed: 0, total: 7 },
+    { name: 'Backtracking', completed: 0, total: 9 },
+    { name: 'Tries', completed: 0, total: 3 },
+    { name: 'Graphs', completed: 0, total: 13 },
+    { name: 'Advanced Graphs', completed: 0, total: 6 },
+    { name: '1-D DP', completed: 0, total: 12 },
+    { name: '2-D DP', completed: 0, total: 11 },
+    { name: 'Greedy', completed: 0, total: 8 },
+    { name: 'Intervals', completed: 0, total: 6 },
+    { name: 'Math & Geometry', completed: 0, total: 8 },
+    { name: 'Bit Manipulation', completed: 0, total: 7 },
+  ],
+};
+
+// ---- Stats  ----
 export const stats: Stat[] = [
   { name: 'Knowledge', rank: 5, rankLabel: 'Advanced', description: 'CS fundamentals, ML, algorithms' },
   { name: 'Team Work', rank: 4, rankLabel: 'Supportive', description: 'Collaboration, mentoring, Agile workflows' },
@@ -31,8 +65,8 @@ export const stats: Stat[] = [
 export const aboutInfo: AboutItem[] = [
   { label: 'SCHOOL', value: 'University of California, Irvine' },
   { label: 'MAJOR', value: 'Computer Science Specializing in Intelligent Systems' },
-  { label: 'SPECIALTY', value: 'Full Stack Development & Machine Learning' },
-  { label: 'WEAPONS', value: 'Python, TypeScript, PostgreSQL, React, FastAPI' },
+  { label: 'INTERESTS', value: 'Full Stack Development & Machine Learning' },
+  { label: 'Favorites', value: 'Python, TypeScript, PostgreSQL, React, FastAPI' },
   { label: 'OBJECTIVE', value: 'Using data to drive impactful solutions to real-world problems' },
 ];
 
@@ -65,16 +99,15 @@ export const showcaseProjects: Project[] = [
 
 // ---- All Completed Projects ----
 export const completedProjects: Project[] = [
-  { title: 'ZotSwap', desc: 'Matching System for UCI Students to swap skills(React/Firebase)' },
-  { title: 'KapeChat', desc: 'Matching and auth systems for 100+ users (React/Firebase)' },
-  { title: 'Sudoku AI Agent', desc: 'MCTS-based AI agent using C++ and UCT formula' },
-  { title: 'ChurnSight', desc: 'Context-aware recommendation engine (Next.js/Pinecone)' },
-  { title: 'Search Engine Architecture', desc: 'High-Performance Web Crawler and Inverted Index' },
-  { title: 'Personal Blog', desc: 'WordPress site deployed on Oracle Cloud Infrastructure' },
-  { title: 'TalentLens', desc: 'End-to-end NLP job market analysis pipeline (Python/SQL)' },
-  { title: 'Personal Portfolio', desc: 'Responsive portfolio website built with Astro and Tailwind CSS' },
-  { title: 'Columns in Python', desc: 'Tetris-style game implemented with Pygame' },
-  { title: 'Senti-IDMB of Movie Reviews', desc: 'NLP project using NLTK and scikit-learn to classify movie reviews as positive or negative' },
+  { title: 'ZotSwap', desc: 'Matching System for UCI Students to swap skills (React/Firebase)', longDesc: 'A skillshare-style platform that matches UCI students based on shared interests and complementary skills. Features real-time chat and personalized recommendations.' },
+  { title: 'KapeChat', desc: 'Matching and auth systems for 100+ users (React/Firebase)', longDesc: 'A mentorship platform connecting UCI students with mentors. Includes authentication, profile matching algorithms, and real-time messaging for 100+ active users.' },
+  { title: 'Sudoku AI Agent', desc: 'MCTS-based AI agent using Python and UCT formula', longDesc: 'An intelligent Sudoku solver using Monte Carlo Tree Search with Upper Confidence Trees. Explores solution spaces efficiently to solve puzzles of varying difficulty.' },
+  { title: 'ChurnSight', desc: 'Context-aware recommendation engine (Next.js/Pinecone)', longDesc: 'A context-aware recommendation engine that predicts customer churn using vector embeddings stored in Pinecone, with a Next.js frontend for interactive dashboards.' },
+  { title: 'Custom Search Engine', desc: 'High-Performance Web Crawler and Inverted Index', longDesc: 'A high-performance web crawler and search engine with an inverted index for fast query lookups. Handles large-scale document indexing and ranked retrieval.' },
+  { title: 'TalentLens', desc: 'End-to-end NLP job market analysis pipeline (Python/SQL)', longDesc: 'Analyzed 100,000+ job postings to identify hiring trends. Trained NLP classification models to predict job role categories with 85%+ accuracy.' },
+  { title: 'Personal Portfolio', desc: 'Responsive portfolio website built with Astro and Tailwind CSS', longDesc: 'This very website! Built with Astro and Tailwind CSS, themed after Persona 5 Royal with custom animations, radar charts, and interactive elements.' },
+  { title: 'Columns in Python', desc: 'Tetris-style game implemented with Pygame', longDesc: 'A Tetris-style puzzle game built with Pygame featuring falling columns, color matching mechanics, score tracking, and increasing difficulty levels.' },
+  { title: 'Senti-IDMB of Movie Reviews', desc: 'NLP project using NLTK and scikit-learn to classify movie reviews as positive or negative', longDesc: 'A sentiment analysis project using NLTK for text preprocessing and scikit-learn for classification. Trained on IMDB movie reviews to predict positive/negative sentiment.' },
 ];
 
 // ---- Nav Items ----

@@ -1,5 +1,5 @@
 ---
-import { stats } from '../data/portfolio';
+import { stats, neetcodeStats } from '../data/portfolio';
 
 // Pentagon vertex positions (5 points, starting from top, going clockwise)
 // Centered at (250, 250) with max radius 140, in a 500x500 viewBox for label room
@@ -38,6 +38,10 @@ stats.forEach((s, i) => {
 // Label positions (pushed further out with more room)
 const labelRadius = maxR + 50;
 const labelPositions = angles.map(a => polarToXY(a, labelRadius));
+
+// NeetCode progress percentage
+const ncPercent = neetcodeStats.total > 0 ? Math.round((neetcodeStats.completed / neetcodeStats.total) * 100) : 0;
+const ncRemaining = neetcodeStats.total - neetcodeStats.completed - neetcodeStats.inProgress;
 ---
 
 <section id="stats" class="relative z-10 px-8 md:px-16 py-24 p5-halftone">
@@ -62,77 +66,146 @@ const labelPositions = angles.map(a => polarToXY(a, labelRadius));
       </p>
     </div>
 
-    <!-- Radar Chart Container -->
-    <div id="stats-container" class="hidden opacity-0 transition-opacity duration-500 flex justify-center">
-      <div class="relative w-full max-w-2xl">
-        <svg viewBox="0 0 500 500" class="w-full h-auto" overflow="visible">
-          <defs>
-            <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#FFD700" />
-              <stop offset="50%" stop-color="#FFA500" />
-              <stop offset="100%" stop-color="#FF8C00" />
-            </linearGradient>
-            <filter id="starGlow">
-              <feGaussianBlur stdDeviation="4" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
+    <!-- Two-column stats container -->
+    <div id="stats-container" class="hidden opacity-0 transition-opacity duration-500 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
-          <!-- Grid pentagons (level lines) -->
-          {gridPaths.map((path, i) => (
-            <path d={path} fill="none" stroke="rgba(255,255,255,0.08)"
-                  stroke-width={i === 4 ? "2" : "1"} />
-          ))}
+      <!-- Left Column: P5R Radar Chart -->
+      <div class="flex justify-center">
+        <div class="relative w-full max-w-2xl">
+          <svg viewBox="0 0 500 500" class="w-full h-auto" overflow="visible">
+            <defs>
+              <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FFD700" />
+                <stop offset="50%" stop-color="#FFA500" />
+                <stop offset="100%" stop-color="#FF8C00" />
+              </linearGradient>
+              <filter id="starGlow">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
 
-          <!-- Axis lines -->
-          {axisLines.map(([x, y]) => (
-            <line x1={cx} y1={cy} x2={x} y2={y}
-                  stroke="rgba(255,255,255,0.1)" stroke-width="1" />
-          ))}
+            <!-- Grid pentagons (level lines) -->
+            {gridPaths.map((path, i) => (
+              <path d={path} fill="none" stroke="rgba(255,255,255,0.08)"
+                    stroke-width={i === 4 ? "2" : "1"} />
+            ))}
 
-          <!-- Filled stat polygon (golden star) -->
-          <path d={statPath} fill="url(#starGradient)" fill-opacity="0.85"
-                stroke="#FFD700" stroke-width="2" filter="url(#starGlow)" />
+            <!-- Axis lines -->
+            {axisLines.map(([x, y]) => (
+              <line x1={cx} y1={cy} x2={x} y2={y}
+                    stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+            ))}
 
-          <!-- Dots along axes -->
-          {dots.map((dot) => (
-            <circle cx={dot.x} cy={dot.y} r="3.5"
-                    fill={dot.filled ? "#FFD700" : "rgba(255,255,255,0.2)"}
-                    stroke={dot.filled ? "#FFA500" : "rgba(255,255,255,0.1)"}
-                    stroke-width="1" />
-          ))}
+            <!-- Filled stat polygon (golden star) -->
+            <path d={statPath} fill="url(#starGradient)" fill-opacity="0.85"
+                  stroke="#FFD700" stroke-width="2" filter="url(#starGlow)" />
 
-          <!-- Stat labels -->
-          {stats.map((stat, i) => {
-            const [lx, ly] = labelPositions[i];
-            const anchor = lx < 200 ? 'end' : lx > 300 ? 'start' : 'middle';
-            // Offset the yellow box position based on anchor
-            const boxX = anchor === 'end' ? lx - 100 : anchor === 'start' ? lx - 5 : lx - 50;
+            <!-- Dots along axes -->
+            {dots.map((dot) => (
+              <circle cx={dot.x} cy={dot.y} r="3.5"
+                      fill={dot.filled ? "#FFD700" : "rgba(255,255,255,0.2)"}
+                      stroke={dot.filled ? "#FFA500" : "rgba(255,255,255,0.1)"}
+                      stroke-width="1" />
+            ))}
+
+            <!-- Stat labels -->
+            {stats.map((stat, i) => {
+              const [lx, ly] = labelPositions[i];
+              const anchor = lx < 200 ? 'end' : lx > 300 ? 'start' : 'middle';
+              // Offset the yellow box position based on anchor
+              const boxX = anchor === 'end' ? lx - 100 : anchor === 'start' ? lx - 5 : lx - 50;
+              return (
+                <g>
+                  {/* Stat name - yellow highlight box */}
+                  <rect x={boxX} y={ly - 18} width="105" height="24" fill="#FFD700" rx="2"
+                        transform={`rotate(${(i * 7 % 5) - 2}, ${lx}, ${ly})`} />
+                  <text x={lx} y={ly + 1} text-anchor={anchor}
+                        class="font-p5-accent" fill="#0D0D0D" font-size="15" font-weight="bold">
+                    {stat.name}
+                  </text>
+                  {/* MAX / rank label */}
+                  <text x={lx} y={ly + 20} text-anchor={anchor}
+                        class="font-p5-body" fill="#FFD700" font-size="14" font-weight="bold">
+                    {stat.rank >= 5 ? 'MAX' : `${stat.rank}/5`}
+                  </text>
+                  <text x={lx} y={ly + 36} text-anchor={anchor}
+                        class="font-p5-body" fill="rgba(255,255,255,0.5)" font-size="12">
+                    {stat.rankLabel}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+      </div>
+
+      <!-- Right Column: NeetCode 150 Progress -->
+      <div class="space-y-6">
+        <!-- NeetCode Header -->
+        <div class="relative inline-block">
+          <h3 class="font-p5 text-3xl md:text-4xl uppercase text-white tracking-tight">NEETCODE 150</h3>
+          <div class="absolute -bottom-1 left-0 w-full h-1 bg-p5-red -skew-x-12"></div>
+        </div>
+
+        <!-- Overall Progress -->
+        <div class="bg-p5-gray border-l-[6px] border-p5-red p-6 shadow-[4px_4px_0px_black]">
+          <!-- Progress fraction -->
+          <div class="flex items-end gap-3 mb-4">
+            <span class="font-p5 text-5xl text-white">{neetcodeStats.completed}</span>
+            <span class="font-p5-body text-2xl text-white/50 mb-1">/ {neetcodeStats.total}</span>
+          </div>
+
+          <!-- Progress bar -->
+          <div class="relative w-full h-6 bg-black/60 -skew-x-6 overflow-hidden border border-white/10">
+            {neetcodeStats.completed > 0 && (
+              <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-[#FFD700] to-[#FFA500]"
+                   style={`width: ${ncPercent}%`}></div>
+            )}
+            {neetcodeStats.inProgress > 0 && (
+              <div class="absolute inset-y-0 bg-p5-red/60"
+                   style={`left: ${ncPercent}%; width: ${Math.round((neetcodeStats.inProgress / neetcodeStats.total) * 100)}%`}></div>
+            )}
+          </div>
+          <div class="flex justify-between mt-2 font-p5-body text-sm tracking-wider">
+            <span class="text-[#FFD700]">{ncPercent}% COMPLETE</span>
+          </div>
+
+          <!-- Stat badges -->
+          <div class="flex flex-wrap gap-3 mt-4">
+            <div class="bg-p5-red text-white px-4 py-1 -skew-x-12 font-p5-body text-sm shadow-[2px_2px_0px_black]">
+              <span class="skew-x-12 inline-block tracking-wider">COMPLETED: {neetcodeStats.completed}</span>
+            </div>
+            <div class="bg-[#FFA500] text-black px-4 py-1 -skew-x-12 font-p5-body text-sm shadow-[2px_2px_0px_black]">
+              <span class="skew-x-12 inline-block tracking-wider">IN PROGRESS: {neetcodeStats.inProgress}</span>
+            </div>
+            <div class="border border-white/30 text-white/60 px-4 py-1 -skew-x-12 font-p5-body text-sm">
+              <span class="skew-x-12 inline-block tracking-wider">REMAINING: {ncRemaining}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Breakdown -->
+        <div class="space-y-2 max-h-[400px] overflow-y-auto pr-2" style="scrollbar-width: thin; scrollbar-color: #FF0000 #1A1A1A;">
+          {neetcodeStats.categories.map((cat) => {
+            const catPercent = cat.total > 0 ? Math.round((cat.completed / cat.total) * 100) : 0;
             return (
-              <g>
-                {/* Stat name - yellow highlight box */}
-                <rect x={boxX} y={ly - 18} width="105" height="24" fill="#FFD700" rx="2"
-                      transform={`rotate(${(i * 7 % 5) - 2}, ${lx}, ${ly})`} />
-                <text x={lx} y={ly + 1} text-anchor={anchor}
-                      class="font-p5-accent" fill="#0D0D0D" font-size="15" font-weight="bold">
-                  {stat.name}
-                </text>
-                {/* MAX / rank label */}
-                <text x={lx} y={ly + 20} text-anchor={anchor}
-                      class="font-p5-body" fill="#FFD700" font-size="14" font-weight="bold">
-                  {stat.rank >= 5 ? 'MAX' : `${stat.rank}/5`}
-                </text>
-                <text x={lx} y={ly + 36} text-anchor={anchor}
-                      class="font-p5-body" fill="rgba(255,255,255,0.5)" font-size="12">
-                  {stat.rankLabel}
-                </text>
-              </g>
+              <div class="flex items-center gap-3 group">
+                <span class="font-p5-body text-xs text-white/70 tracking-wider w-40 shrink-0 truncate">{cat.name}</span>
+                <div class="flex-1 h-3 bg-black/60 -skew-x-6 overflow-hidden border border-white/5">
+                  {cat.completed > 0 && (
+                    <div class="h-full bg-gradient-to-r from-[#FFD700] to-[#FFA500]"
+                         style={`width: ${catPercent}%`}></div>
+                  )}
+                </div>
+                <span class="font-p5-body text-xs text-white/50 w-12 text-right shrink-0">{cat.completed}/{cat.total}</span>
+              </div>
             );
           })}
-        </svg>
+        </div>
       </div>
     </div>
   </div>

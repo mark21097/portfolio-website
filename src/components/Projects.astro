@@ -11,35 +11,75 @@ import { completedProjects } from '../data/portfolio';
 
   <div class="grid lg:grid-cols-3 gap-10">
     {completedProjects.map((project, i) => (
-      <div class="group relative cursor-pointer" data-animate>
-        <!-- Red shadow layer -->
-        <div class="absolute inset-0 bg-p5-red translate-x-2 translate-y-2 -skew-x-6
-                    transition-transform duration-300 group-hover:translate-x-4 group-hover:translate-y-4"></div>
-        <!-- Card -->
-        <div class="relative bg-p5-black border-l-[8px] border-p5-red p-8 -skew-x-6
-                    transition-transform duration-300 group-hover:-translate-y-1 group-hover:-translate-x-1">
-          <div class="skew-x-6">
-            <!-- Index -->
-            <span class="font-p5-body text-p5-red text-xs tracking-[0.3em] block mb-2">
-              Project {i + 1}
-            </span>
-            <!-- Title -->
-            <h3 class="font-p5 text-3xl uppercase text-white leading-tight tracking-wide">{project.title}</h3>
-            <!-- Description -->
-            <p class="mt-4 font-p5-body text-white/60 text-sm uppercase tracking-wider leading-relaxed">{project.desc}</p>
-            <!-- CLEARED stamp -->
-            <div class="mt-6 inline-block border-2 border-p5-red text-p5-red
-                        font-p5-accent text-sm px-3 py-1 rotate-[-3deg] opacity-70
-                        group-hover:opacity-100 transition-opacity">
-              CLEARED
+      <div class="group relative cursor-pointer project-card" style="perspective: 1000px;" data-animate>
+        <div class="relative transition-transform duration-500 project-card-inner" style="transform-style: preserve-3d;">
+
+          {/* ── Front Face ── */}
+          <div class="project-card-front" style="backface-visibility: hidden;">
+            {/* Red shadow layer */}
+            <div class="absolute inset-0 bg-p5-red translate-x-2 translate-y-2 -skew-x-6
+                        transition-transform duration-300 group-hover:translate-x-4 group-hover:translate-y-4"></div>
+            {/* Card */}
+            <div class="relative bg-p5-black border-l-[8px] border-p5-red p-8 -skew-x-6
+                        transition-transform duration-300 group-hover:-translate-y-1 group-hover:-translate-x-1">
+              <div class="skew-x-6">
+                <span class="font-p5-body text-p5-red text-xs tracking-[0.3em] block mb-2">
+                  Project {i + 1}
+                </span>
+                <h3 class="font-p5 text-3xl uppercase text-white leading-tight tracking-wide">{project.title}</h3>
+                <p class="mt-4 font-p5-body text-white/60 text-sm uppercase tracking-wider leading-relaxed">{project.desc}</p>
+                <div class="mt-6 inline-block border-2 border-p5-red text-p5-red
+                            font-p5-accent text-sm px-3 py-1 rotate-[-3deg] opacity-70
+                            group-hover:opacity-100 transition-opacity">
+                  CLEARED
+                </div>
+              </div>
+              {/* Tear-page corner */}
+              <div class="tear-corner">
+                <span class="tear-text font-p5-body">Click<br/>to Reveal</span>
+              </div>
             </div>
           </div>
-          <!-- Tear-page corner -->
-          <div class="tear-corner">
-            <span class="tear-text font-p5-body">Click<br/>to Reveal</span>
+
+          {/* ── Back Face ── */}
+          <div class="project-card-back absolute inset-0" style="backface-visibility: hidden; transform: rotateY(180deg);">
+            <div class="absolute inset-0 bg-p5-red translate-x-2 translate-y-2 -skew-x-6"></div>
+            <div class="relative bg-p5-black border-l-[8px] border-[#FFD700] p-8 -skew-x-6 h-full">
+              <div class="skew-x-6 flex flex-col h-full">
+                <span class="font-p5-body text-[#FFD700] text-xs tracking-[0.3em] block mb-2">
+                  Project {i + 1} — Details
+                </span>
+                <h3 class="font-p5 text-2xl uppercase text-white leading-tight tracking-wide mb-4">{project.title}</h3>
+                <p class="font-p5-body text-white/80 text-sm tracking-wider leading-relaxed flex-1">
+                  {project.longDesc || project.desc}
+                </p>
+                {/* GitHub button */}
+                <a href="#" class="mt-4 inline-flex items-center gap-2 bg-white text-black px-4 py-2
+                                   -skew-x-12 font-p5-body text-sm shadow-[3px_3px_0px_black]
+                                   hover:shadow-[4px_4px_0px_black] hover:translate-x-[-1px] hover:translate-y-[-1px]
+                                   transition-all self-start" onclick="event.stopPropagation()">
+                  <img src="/github_logo.png" alt="GitHub" class="w-5 h-5 skew-x-12"/>
+                  <span class="skew-x-12 inline-block tracking-wider">GitHub</span>
+                </a>
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
     ))}
   </div>
 </section>
+
+<script>
+  document.querySelectorAll('.project-card').forEach(card => {
+    let flipped = false;
+    card.addEventListener('click', () => {
+      flipped = !flipped;
+      const inner = card.querySelector('.project-card-inner') as HTMLElement;
+      if (inner) {
+        inner.style.transform = flipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+      }
+    });
+  });
+</script>
