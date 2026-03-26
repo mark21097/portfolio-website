@@ -7,7 +7,7 @@ dist/
 # dependencies
 node_modules/
 
-.claude
+.claude/
 
 # logs
 npm-debug.log*
