@@ -1,0 +1,185 @@
+---
+interface Session {
+  type: 'LEC' | 'DIS';
+  course: string;
+  time: string;
+}
+
+interface DaySchedule {
+  day: string;
+  short: string;
+  sessions: Session[];
+}
+
+const courses = [
+  {
+    code: 'CS 161',
+    full: 'Design & Analysis of Algorithms',
+    units: 4,
+    desc: 'Efficient algorithm design — divide-and-conquer, dynamic programming, sorting, shortest paths, and more.',
+    color: 'red' as const,
+  },
+  {
+    code: 'CS 175',
+    full: 'Project in Artificial Intelligence',
+    units: 4,
+    desc: 'Construction of a working AI system; evaluation of capabilities including knowledge representation.',
+    color: 'gold' as const,
+  },
+  {
+    code: 'INF 131',
+    full: 'Human Computer Interaction',
+    units: 4,
+    desc: 'HCI principles, user interface design techniques, usability testing, and evaluation methods.',
+    color: 'white' as const,
+  },
+];
+
+const schedule: DaySchedule[] = [
+  {
+    day: 'Monday',
+    short: 'MON',
+    sessions: [
+      { type: 'LEC', course: 'CS 175', time: '10:00 – 10:50' },
+      { type: 'DIS', course: 'CS 161', time: '15:00 – 15:50' },
+    ],
+  },
+  {
+    day: 'Tuesday',
+    short: 'TUE',
+    sessions: [
+      { type: 'LEC', course: 'INF 131', time: '8:00 – 9:20' },
+      { type: 'LEC', course: 'CS 161', time: '9:30 – 10:50' },
+    ],
+  },
+  {
+    day: 'Wednesday',
+    short: 'WED',
+    sessions: [
+      { type: 'LEC', course: 'CS 175', time: '10:00 – 10:50' },
+      { type: 'DIS', course: 'CS 161', time: '15:00 – 15:50' },
+    ],
+  },
+  {
+    day: 'Thursday',
+    short: 'THU',
+    sessions: [
+      { type: 'LEC', course: 'INF 131', time: '8:00 – 9:20' },
+      { type: 'LEC', course: 'CS 161', time: '9:30 – 10:50' },
+    ],
+  },
+  {
+    day: 'Friday',
+    short: 'FRI',
+    sessions: [
+      { type: 'DIS', course: 'CS 175', time: '9:00 – 9:50' },
+      { type: 'LEC', course: 'CS 175', time: '10:00 – 10:50' },
+      { type: 'DIS', course: 'INF 131', time: '11:00 – 11:50' },
+    ],
+  },
+];
+
+function courseColor(code: string) {
+  if (code === 'CS 161') return 'red';
+  if (code === 'CS 175') return 'gold';
+  return 'white';
+}
+---
+
+<section id="schedule" class="relative z-10 px-8 md:px-16 py-24 p5-halftone">
+  <div class="relative z-10">
+    <!-- Section header -->
+    <div class="relative inline-block mb-16">
+      <div class="mb-1">
+        <span class="bg-p5-red text-white font-p5-body text-xs tracking-[0.25em] px-2 py-0.5 -skew-x-12 inline-block shadow-[2px_2px_0px_black]">
+          <span class="skew-x-12 inline-block">// SYS.SCHEDULE</span>
+        </span>
+      </div>
+      <h2 class="font-p5 text-5xl md:text-7xl uppercase text-white tracking-tight">Schedule</h2>
+      <div class="absolute -bottom-2 left-0 w-full h-1.5 bg-p5-red -skew-x-12"></div>
+      <div class="absolute -bottom-4 left-4 w-3/4 h-0.5 bg-p5-red/40 -skew-x-12"></div>
+    </div>
+
+    <p class="font-p5-body text-white/40 text-sm tracking-[0.2em] -mt-8 mb-12">
+      UCI — SPRING 2025 &nbsp;|&nbsp; 12 UNITS
+    </p>
+
+    <!-- Weekly timetable grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-16" data-animate>
+      {schedule.map((day) => (
+        <div class="flex flex-col gap-3">
+          <!-- Day header -->
+          <div class="bg-p5-red text-white font-p5 text-lg -skew-x-12 px-4 py-1
+                      shadow-[3px_3px_0px_black] tracking-widest text-center">
+            <span class="skew-x-12 inline-block">{day.short}</span>
+          </div>
+
+          <!-- Sessions -->
+          <div class="flex flex-col gap-2">
+            {day.sessions.map((session) => {
+              const color = courseColor(session.course);
+              const isLec = session.type === 'LEC';
+              return (
+                <div class={`relative pl-3 py-3 pr-3 border-l-4 transition-all
+                  ${color === 'red'
+                    ? 'border-p5-red ' + (isLec ? 'bg-p5-red/15' : 'bg-p5-red/8')
+                    : color === 'gold'
+                    ? 'border-[#FFD700] ' + (isLec ? 'bg-[#FFD700]/12' : 'bg-[#FFD700]/6')
+                    : 'border-white/70 ' + (isLec ? 'bg-white/8' : 'bg-white/4')
+                  }`}>
+                  <!-- Type badge -->
+                  <div class={`inline-flex items-center mb-1.5`}>
+                    <span class={`font-p5-body text-[10px] tracking-[0.2em] px-1.5 py-0 -skew-x-6 leading-5
+                      ${isLec
+                        ? (color === 'red' ? 'bg-p5-red text-white' : color === 'gold' ? 'bg-[#FFD700] text-black' : 'bg-white text-black')
+                        : 'border text-white/60 ' + (color === 'red' ? 'border-p5-red' : color === 'gold' ? 'border-[#FFD700]' : 'border-white/50')
+                      }`}>
+                      <span class="skew-x-6 inline-block">{session.type}</span>
+                    </span>
+                  </div>
+                  <!-- Course code -->
+                  <div class={`font-p5 text-base leading-tight tracking-wide
+                    ${color === 'red' ? 'text-white' : color === 'gold' ? 'text-[#FFD700]' : 'text-white/90'}`}>
+                    {session.course}
+                  </div>
+                  <!-- Time -->
+                  <div class="font-p5-body text-white/40 text-xs tracking-wider mt-0.5">
+                    {session.time}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Course legend / info cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-animate>
+      {courses.map((course) => (
+        <div class={`border-l-4 p-5 bg-p5-gray/60
+          ${course.color === 'red' ? 'border-p5-red' : course.color === 'gold' ? 'border-[#FFD700]' : 'border-white/60'}`}>
+          <!-- Course code + units -->
+          <div class="flex items-center justify-between mb-2">
+            <div class={`font-p5 text-xl tracking-wide
+              ${course.color === 'red' ? 'text-p5-red' : course.color === 'gold' ? 'text-[#FFD700]' : 'text-white'}`}>
+              {course.code}
+            </div>
+            <div class="bg-p5-red/20 border border-p5-red/30 text-p5-red font-p5-body text-xs
+                        px-2 py-0.5 -skew-x-6 tracking-wider">
+              <span class="skew-x-6 inline-block">{course.units} UNITS</span>
+            </div>
+          </div>
+          <!-- Full name -->
+          <div class="font-p5-body text-white/80 text-sm tracking-wide mb-2 leading-snug">
+            {course.full}
+          </div>
+          <!-- Description -->
+          <p class="font-p5-body text-white/40 text-xs leading-relaxed tracking-wide">
+            {course.desc}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

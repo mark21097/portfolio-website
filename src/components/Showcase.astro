@@ -6,10 +6,16 @@ import { showcaseProjects } from '../data/portfolio';
   <!-- Section header -->
   <div class="mb-16">
     <div class="relative inline-block">
+      <div class="mb-1">
+        <span class="bg-p5-red text-white font-p5-body text-xs tracking-[0.25em] px-2 py-0.5 -skew-x-12 inline-block shadow-[2px_2px_0px_black]">
+          <span class="skew-x-12 inline-block">// SYS.TARGET</span>
+        </span>
+      </div>
       <h2 class="font-p5 text-5xl md:text-7xl uppercase text-white tracking-tight">Showcase</h2>
-      <div class="absolute -bottom-2 left-0 w-full h-2 bg-p5-red -skew-x-12"></div>
+      <div class="absolute -bottom-2 left-0 w-full h-1.5 bg-p5-red -skew-x-12"></div>
+      <div class="absolute -bottom-4 left-4 w-3/4 h-0.5 bg-p5-red/40 -skew-x-12"></div>
     </div>
-    <p class="font-p5-body text-p5-red text-lg mt-4 tracking-[0.2em]">// FEATURED TARGETS</p>
+    <p class="font-p5-body text-p5-red text-lg mt-6 tracking-[0.2em]">// FEATURED TARGETS</p>
   </div>
 
   {showcaseProjects.map((project, i) => (

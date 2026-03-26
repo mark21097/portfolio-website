@@ -7,13 +7,17 @@ import { navItems } from '../data/portfolio';
   <div class="flex items-center justify-center gap-1 lg:gap-2 px-4 py-2 max-w-7xl mx-auto">
     {navItems.map((item) => (
       <a href={`#${item.id}`}
-         class="group">
-        <span class="bg-p5-red text-white font-p5-body text-sm lg:text-base px-4 lg:px-5 py-1.5
+         class="group nav-item"
+         data-section={item.id}>
+        <span class="nav-item-inner bg-p5-red text-white font-p5-body text-sm lg:text-base px-4 lg:px-5 py-1.5
                       -skew-x-12 inline-block
                       shadow-[2px_2px_0px_black] hover:shadow-[3px_3px_0px_black]
                       hover:translate-x-[-1px] hover:translate-y-[-1px]
                       transition-all duration-200 tracking-wider cursor-pointer">
-          <span class="skew-x-12 inline-block">{item.label}</span>
+          <span class="skew-x-12 inline-flex items-center gap-1.5">
+            <span class="nav-cursor text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-150 leading-none select-none">▶</span>
+            {item.label}
+          </span>
         </span>
       </a>
     ))}
@@ -34,13 +38,15 @@ import { navItems } from '../data/portfolio';
      class="fixed inset-0 bg-p5-black/95 z-[105] hidden flex-col items-center justify-center gap-6">
   {navItems.map((item) => (
     <a href={`#${item.id}`}
-       class="mobile-nav-link text-4xl font-p5 text-white hover:text-p5-red transition-colors tracking-wider uppercase">
+       class="mobile-nav-link group flex items-center gap-3 text-4xl font-p5 text-white hover:text-p5-red transition-colors tracking-wider uppercase">
+      <span class="text-p5-red text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-150 select-none">▶</span>
       {item.label}
     </a>
   ))}
 </div>
 
 <script>
+  // Mobile nav toggle
   const toggle = document.getElementById('mobile-nav-toggle');
   const overlay = document.getElementById('mobile-nav-overlay');
   const links = document.querySelectorAll('.mobile-nav-link');
@@ -57,4 +63,36 @@ import { navItems } from '../data/portfolio';
       });
     });
   }
+
+  // Active section tracking — highlights nav item for the visible section
+  const navItemEls = document.querySelectorAll<HTMLElement>('.nav-item[data-section]');
+  const sections = document.querySelectorAll<HTMLElement>('section[id]');
+
+  function setActive(id: string) {
+    navItemEls.forEach(item => {
+      const cursor = item.querySelector<HTMLElement>('.nav-cursor');
+      const inner = item.querySelector<HTMLElement>('.nav-item-inner');
+      if (item.dataset.section === id) {
+        if (cursor) cursor.style.opacity = '1';
+        if (inner) {
+          inner.style.boxShadow = '3px 3px 0px black';
+          inner.style.transform = 'translate(-1px, -1px)';
+        }
+      } else {
+        if (cursor) cursor.style.opacity = '';
+        if (inner) {
+          inner.style.boxShadow = '';
+          inner.style.transform = '';
+        }
+      }
+    });
+  }
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) setActive((entry.target as HTMLElement).id);
+    });
+  }, { threshold: 0.3, rootMargin: '-40% 0px -40% 0px' });
+
+  sections.forEach(s => sectionObserver.observe(s));
 </script>

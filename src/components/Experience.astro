@@ -4,7 +4,8 @@ const experiences = [
     company: 'Boundary RSS',
     location: 'Remote',
     title: 'Data Scientist',
-    date: 'Jan 2026 – Present',
+    date: '[2026.01 — PRESENT]',
+    status: 'ACTIVE',
     bullets: [
       'Analyzed large-scale structured sensor and operational datasets, improving data reliability and downstream modeling performance by 30%.',
       'Built and evaluated classification and regression models using Python, Pandas, NumPy, and scikit-learn, achieving up to 25% improvement in predictive accuracy.',
@@ -16,7 +17,8 @@ const experiences = [
     company: 'Fusion',
     location: 'Irvine, CA',
     title: 'Project Developer – Full-Stack Development',
-    date: 'Nov 2024 – May 2025',
+    date: '[2024.11 — 2025.05]',
+    status: 'COMPLETE',
     bullets: [
       'Built and deployed a full-stack mentorship platform for 100+ students with Firebase Firestore, role-based auth, and a swipe-to-match algorithm.',
       'Translated 15+ Figma wireframes into responsive UI components, reducing feature development time by 25%.',
@@ -29,8 +31,14 @@ const experiences = [
 <section id="experience" class="relative z-10 px-8 md:px-16 py-24">
   <!-- Section header -->
   <div class="relative inline-block mb-16">
+    <div class="mb-1">
+      <span class="bg-p5-red text-white font-p5-body text-xs tracking-[0.25em] px-2 py-0.5 -skew-x-12 inline-block shadow-[2px_2px_0px_black]">
+        <span class="skew-x-12 inline-block">// SYS.RECORD</span>
+      </span>
+    </div>
     <h2 class="font-p5 text-5xl md:text-7xl uppercase text-white tracking-tight">Experience</h2>
-    <div class="absolute -bottom-2 left-0 w-full h-2 bg-p5-red -skew-x-12"></div>
+    <div class="absolute -bottom-2 left-0 w-full h-1.5 bg-p5-red -skew-x-12"></div>
+    <div class="absolute -bottom-4 left-4 w-3/4 h-0.5 bg-p5-red/40 -skew-x-12"></div>
   </div>
 
   <!-- Experience cards -->
@@ -40,7 +48,7 @@ const experiences = [
         <!-- Red dot on the timeline -->
         <div class="absolute -left-[11px] top-0 w-[18px] h-[18px] bg-p5-red rotate-45 shadow-[2px_2px_0px_black]"></div>
 
-        <!-- Header row: company badge + date -->
+        <!-- Header row: company badge + status + date -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-3">
           <div class="flex flex-wrap items-center gap-3">
             <div class="bg-p5-red text-white px-4 py-1 -skew-x-12 font-p5-body text-sm
@@ -48,6 +56,12 @@ const experiences = [
               <span class="skew-x-12 inline-block tracking-wider">{exp.company}</span>
             </div>
             <span class="font-p5-body text-white/40 text-sm tracking-wider">{exp.location}</span>
+            <!-- Status badge -->
+            <div class={`px-3 py-0.5 -skew-x-12 font-p5-body text-xs shadow-[1px_1px_0px_black] ${exp.status === 'ACTIVE' ? 'bg-emerald-600 text-white' : 'bg-[#B8860B] text-white'}`}>
+              <span class="skew-x-12 inline-block tracking-widest">
+                {exp.status === 'ACTIVE' ? '● ACTIVE' : '✓ COMPLETE'}
+              </span>
+            </div>
           </div>
           <span class="font-p5-body text-white/40 text-sm tracking-wider">{exp.date}</span>
         </div>

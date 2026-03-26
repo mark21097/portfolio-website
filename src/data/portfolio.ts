@@ -114,6 +114,7 @@ export const completedProjects: Project[] = [
 export const navItems = [
   { id: 'home', label: 'HOME' },
   { id: 'about', label: 'ABOUT' },
+  { id: 'schedule', label: 'SCHEDULE' },
   { id: 'experience', label: 'EXPERIENCE' },
   { id: 'stats', label: 'STATS' },
   { id: 'showcase', label: 'SHOWCASE' },

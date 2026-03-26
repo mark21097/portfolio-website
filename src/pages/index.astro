@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import AboutMe from '../components/AboutMe.astro';
+import Schedule from '../components/Schedule.astro';
 import Experience from '../components/Experience.astro';
 import Stats from '../components/Stats.astro';
 import Showcase from '../components/Showcase.astro';
@@ -13,11 +14,27 @@ import Footer from '../components/Footer.astro';
 ---
 
 <Layout>
+  <!-- P5R Intro Overlay -->
+  <div id="p5-intro" style="position:fixed;inset:0;z-index:9999;background:#0D0D0D;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;">
+    <!-- Speed lines -->
+    <div id="intro-line-1" style="position:absolute;width:220%;height:14px;background:#FF0000;top:44%;left:-110%;transform:skewX(-15deg);opacity:0;"></div>
+    <div id="intro-line-2" style="position:absolute;width:220%;height:5px;background:rgba(255,0,0,0.5);top:48%;left:-110%;transform:skewX(-15deg);opacity:0;"></div>
+    <!-- Main text -->
+    <div id="intro-text" style="font-family:'Anton',sans-serif;color:#fff;font-size:clamp(2rem,8vw,5rem);text-transform:uppercase;letter-spacing:0.15em;text-align:center;line-height:1.1;opacity:0;position:relative;z-index:2;text-shadow:4px 4px 0 #FF0000;">
+      PORTFOLIO<br/>LOADING
+    </div>
+    <div id="intro-sub" style="font-family:'Bebas Neue',sans-serif;color:#FF0000;font-size:0.9rem;letter-spacing:0.5em;margin-top:1rem;opacity:0;position:relative;z-index:2;">
+      — INITIALIZING —
+    </div>
+  </div>
+
   <Nav />
   <main class="relative min-h-screen p5-bg-pattern overflow-hidden md:pt-12">
     <Hero />
     <SectionDivider />
     <AboutMe />
+    <SectionDivider />
+    <Schedule />
     <SectionDivider />
     <Experience />
     <SectionDivider />
@@ -117,6 +134,52 @@ import Footer from '../components/Footer.astro';
         letterIndex++;
       }
     });
+  })();
+
+  // P5R Intro animation sequence
+  (function () {
+    var intro = document.getElementById('p5-intro');
+    var line1 = document.getElementById('intro-line-1');
+    var line2 = document.getElementById('intro-line-2');
+    var text  = document.getElementById('intro-text');
+    var sub   = document.getElementById('intro-sub');
+    if (!intro) return;
+
+    // Lines sweep
+    setTimeout(function () {
+      if (line1) { line1.style.opacity = '1'; line1.style.animation = 'p5-intro-sweep 0.35s ease-in forwards'; }
+    }, 50);
+    setTimeout(function () {
+      if (line2) { line2.style.opacity = '1'; line2.style.animation = 'p5-intro-sweep 0.35s 70ms ease-in forwards'; }
+    }, 50);
+
+    // Text stamps in
+    setTimeout(function () {
+      if (text) { text.style.animation = 'p5-intro-stamp 0.45s ease-out forwards'; }
+    }, 250);
+
+    // Subtitle slides in
+    setTimeout(function () {
+      if (sub) { sub.style.animation = 'p5-intro-sub-in 0.3s ease-out forwards'; }
+    }, 500);
+
+    // Flash
+    setTimeout(function () {
+      intro.style.backgroundColor = '#FF0000';
+      setTimeout(function () { intro.style.backgroundColor = '#0D0D0D'; }, 90);
+    }, 820);
+
+    // Fade out
+    setTimeout(function () {
+      intro.style.transition = 'opacity 0.45s ease';
+      intro.style.opacity = '0';
+      intro.style.pointerEvents = 'none';
+    }, 1000);
+
+    // Remove from layout
+    setTimeout(function () {
+      intro.style.display = 'none';
+    }, 1500);
   })();
 
   // Smooth scroll for nav links
