@@ -27,16 +27,16 @@ export interface NeetCodeStats {
 }
 
 export const neetcodeStats: NeetCodeStats = {
-  completed: 4,
+  completed: 15,
   inProgress: 0,
   total: 150,
   categories: [
     { name: 'Arrays & Hashing', completed: 4, total: 9 },
-    { name: 'Two Pointers', completed: 0, total: 5 },
+    { name: 'Two Pointers', completed: 5, total: 5 },
     { name: 'Sliding Window', completed: 0, total: 6 },
-    { name: 'Stack', completed: 0, total: 7 },
-    { name: 'Binary Search', completed: 0, total: 7 },
-    { name: 'Linked List', completed: 0, total: 11 },
+    { name: 'Stack', completed: 2, total: 7 },
+    { name: 'Binary Search', completed: 2, total: 7 },
+    { name: 'Linked List', completed: 2, total: 11 },
     { name: 'Trees', completed: 0, total: 15 },
     { name: 'Heap / Priority Queue', completed: 0, total: 7 },
     { name: 'Backtracking', completed: 0, total: 9 },
