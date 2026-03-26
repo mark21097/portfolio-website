@@ -7,18 +7,18 @@ import { navItems } from '../data/portfolio';
   <div class="flex items-center justify-center gap-1 lg:gap-2 px-4 py-2 max-w-7xl mx-auto">
     {navItems.map((item) => (
       <a href={`#${item.id}`}
-         class="group nav-item"
+         class="group nav-item relative flex flex-col items-center"
          data-section={item.id}>
         <span class="nav-item-inner bg-p5-red text-white font-p5-body text-sm lg:text-base px-4 lg:px-5 py-1.5
                       -skew-x-12 inline-block
                       shadow-[2px_2px_0px_black] hover:shadow-[3px_3px_0px_black]
                       hover:translate-x-[-1px] hover:translate-y-[-1px]
                       transition-all duration-200 tracking-wider cursor-pointer">
-          <span class="skew-x-12 inline-flex items-center gap-1.5">
-            <span class="nav-cursor text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-150 leading-none select-none">▶</span>
-            {item.label}
-          </span>
+          <span class="skew-x-12 inline-block">{item.label}</span>
         </span>
+        <!-- Active indicator bar below the button — no layout impact on button text -->
+        <span class="nav-cursor block w-full h-0.5 bg-white -skew-x-12 mt-px
+                     opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none"></span>
       </a>
     ))}
   </div>
@@ -38,9 +38,10 @@ import { navItems } from '../data/portfolio';
      class="fixed inset-0 bg-p5-black/95 z-[105] hidden flex-col items-center justify-center gap-6">
   {navItems.map((item) => (
     <a href={`#${item.id}`}
-       class="mobile-nav-link group flex items-center gap-3 text-4xl font-p5 text-white hover:text-p5-red transition-colors tracking-wider uppercase">
-      <span class="text-p5-red text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-150 select-none">▶</span>
+       class="mobile-nav-link group relative text-4xl font-p5 text-white hover:text-p5-red transition-colors tracking-wider uppercase">
       {item.label}
+      <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-p5-red -skew-x-12
+                   opacity-0 group-hover:opacity-100 transition-opacity duration-150"></span>
     </a>
   ))}
 </div>
@@ -66,7 +67,7 @@ import { navItems } from '../data/portfolio';
 
   // Active section tracking — highlights nav item for the visible section
   const navItemEls = document.querySelectorAll<HTMLElement>('.nav-item[data-section]');
-  const sections = document.querySelectorAll<HTMLElement>('section[id]');
+  const sections = Array.from(document.querySelectorAll<HTMLElement>('section[id]'));
 
   function setActive(id: string) {
     navItemEls.forEach(item => {
@@ -88,11 +89,18 @@ import { navItems } from '../data/portfolio';
     });
   }
 
-  const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) setActive((entry.target as HTMLElement).id);
-    });
-  }, { threshold: 0.3, rootMargin: '-40% 0px -40% 0px' });
+  function updateActive() {
+    // Find the last section whose top edge is at or above the middle of the viewport
+    const mid = window.innerHeight / 2;
+    let active = sections[0];
+    for (const section of sections) {
+      if (section.getBoundingClientRect().top <= mid) {
+        active = section;
+      }
+    }
+    if (active) setActive(active.id);
+  }
 
-  sections.forEach(s => sectionObserver.observe(s));
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
 </script>

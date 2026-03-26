@@ -4,6 +4,8 @@ export interface Project {
   longDesc?: string;
   tech?: string[];
   link?: string;
+  school?: boolean;
+  wip?: boolean;
 }
 
 export interface Stat {
@@ -54,7 +56,7 @@ export const neetcodeStats: NeetCodeStats = {
 
 // ---- Stats  ----
 export const stats: Stat[] = [
-  { name: 'Knowledge', rank: 5, rankLabel: 'Advanced', description: 'CS fundamentals, ML, algorithms' },
+  { name: 'Innovative', rank: 5, rankLabel: 'Trailblazer', description: 'Novel solutions, first-principles thinking' },
   { name: 'Team Work', rank: 4, rankLabel: 'Supportive', description: 'Collaboration, mentoring, Agile workflows' },
   { name: 'Adaptability', rank: 5, rankLabel: 'Transcendent', description: 'Python, C++, React, full stack' },
   { name: 'Analytical', rank: 4, rankLabel: 'Attention to Detail', description: 'Debugging, data analysis, problem solving' },
@@ -77,7 +79,7 @@ export const showcaseProjects: Project[] = [
     desc: 'Mentorship and Matching System for Students',
     longDesc: 'A full-stack recommendation engine that helps UCI students navigate multi-transit routes. Built with FastAPI backend and containerized with Docker for scalable deployment.',
     tech: ['FastAPI', 'Docker', 'Python', 'REST API'],
-    link: '#',
+    link: 'https://github.com/Jollibuilders/FIP_Project',
   },
 
   { // Project 2
@@ -85,7 +87,7 @@ export const showcaseProjects: Project[] = [
     desc: 'Context-Aware Recommendation Engine',
     longDesc: 'A skillshare-style platform that matches UCI students based on shared interests and complementary skills. Built with Next.js and Firebase, it features real-time chat and personalized recommendations using machine learning algorithms.',
     tech: ['Next.js', 'React', 'Firebase', 'TypeScript'],
-    link: '#',
+    link: 'https://github.com/Bennables/ZotSwap',
   },
 
   { // Project 3
@@ -93,21 +95,25 @@ export const showcaseProjects: Project[] = [
     desc: 'End-to-End NLP Job Market Analysis',
     longDesc: 'Built a data science pipeline analyzing over 100,000 job postings to identify hiring trends and skill demands. Performed data cleaning and feature engineering on unstructured text to extract skill keywords, and trained supervised NLP classification models to predict job role categories with 85%+ accuracy',
     tech: ['Python', 'SQL', 'Natural Language Processing', 'Machine Learning', 'Data Analysis'],
-    link: '#',
+    link: 'https://github.com/mark21097/TalentLens',
   },
 ];
 
 // ---- All Completed Projects ----
 export const completedProjects: Project[] = [
-  { title: 'ZotSwap', desc: 'Matching System for UCI Students to swap skills (React/Firebase)', longDesc: 'A skillshare-style platform that matches UCI students based on shared interests and complementary skills. Features real-time chat and personalized recommendations.' },
-  { title: 'KapeChat', desc: 'Matching and auth systems for 100+ users (React/Firebase)', longDesc: 'A mentorship platform connecting UCI students with mentors. Includes authentication, profile matching algorithms, and real-time messaging for 100+ active users.' },
-  { title: 'Sudoku AI Agent', desc: 'MCTS-based AI agent using Python and UCT formula', longDesc: 'An intelligent Sudoku solver using Monte Carlo Tree Search with Upper Confidence Trees. Explores solution spaces efficiently to solve puzzles of varying difficulty.' },
-  { title: 'ChurnSight', desc: 'Context-aware recommendation engine (Next.js/Pinecone)', longDesc: 'A context-aware recommendation engine that predicts customer churn using vector embeddings stored in Pinecone, with a Next.js frontend for interactive dashboards.' },
-  { title: 'Custom Search Engine', desc: 'High-Performance Web Crawler and Inverted Index', longDesc: 'A high-performance web crawler and search engine with an inverted index for fast query lookups. Handles large-scale document indexing and ranked retrieval.' },
-  { title: 'TalentLens', desc: 'End-to-end NLP job market analysis pipeline (Python/SQL)', longDesc: 'Analyzed 100,000+ job postings to identify hiring trends. Trained NLP classification models to predict job role categories with 85%+ accuracy.' },
-  { title: 'Personal Portfolio', desc: 'Responsive portfolio website built with Astro and Tailwind CSS', longDesc: 'This very website! Built with Astro and Tailwind CSS, themed after Persona 5 Royal with custom animations, radar charts, and interactive elements.' },
-  { title: 'Columns in Python', desc: 'Tetris-style game implemented with Pygame', longDesc: 'A Tetris-style puzzle game built with Pygame featuring falling columns, color matching mechanics, score tracking, and increasing difficulty levels.' },
-  { title: 'Senti-IDMB of Movie Reviews', desc: 'NLP project using NLTK and scikit-learn to classify movie reviews as positive or negative', longDesc: 'A sentiment analysis project using NLTK for text preprocessing and scikit-learn for classification. Trained on IMDB movie reviews to predict positive/negative sentiment.' },
+  // ── Personal / Work projects ──
+  { title: 'ZotSwap', desc: 'Matching System for UCI Students to swap skills (React/Firebase)', longDesc: 'A skillshare-style platform that matches UCI students based on shared interests and complementary skills. Features real-time chat and personalized recommendations.', link: 'https://github.com/Bennables/ZotSwap' },
+  { title: 'KapeChat', desc: 'Matching and auth systems for 100+ users (React/Firebase)', longDesc: 'A mentorship platform connecting UCI students with mentors. Includes authentication, profile matching algorithms, and real-time messaging for 100+ active users.', link: 'https://github.com/Jollibuilders/FIP_Project' },
+  { title: 'ChurnSight', desc: 'Context-aware recommendation engine (Next.js/Pinecone)', longDesc: 'A context-aware recommendation engine that predicts customer churn using vector embeddings stored in Pinecone, with a Next.js frontend for interactive dashboards.', wip: true },
+  { title: 'TalentLens', desc: 'End-to-end NLP job market analysis pipeline (Python/SQL)', longDesc: 'Analyzed 100,000+ job postings to identify hiring trends. Trained NLP classification models to predict job role categories with 85%+ accuracy.', link: 'https://github.com/mark21097/TalentLens' },
+  { title: 'IntelliApply', desc: 'AI-powered resume tailor, cover letter & recruiter message generator', longDesc: 'Paste a job description and let AI tailor your resume, generate a targeted cover letter, and craft a personalized recruiter message — all in one workflow.', tech: ['Python', 'LLM / AI', 'FastAPI', 'TypeScript'], link: 'https://github.com/mark21097/IntelliApply' },
+  { title: 'IG Unfollow Tracker', desc: 'Python script that detects Instagram accounts that unfollowed you', longDesc: "Compares your followers vs. following lists to surface accounts that don't follow you back. Tracks changes over time with a simple CLI interface.", tech: ['Python', 'Instagram API'], link: 'https://github.com/mark21097/instagram-unfollow-check' },
+  { title: 'Personal Portfolio', desc: 'Responsive portfolio website built with Astro and Tailwind CSS', longDesc: 'This very website! Built with Astro and Tailwind CSS, themed after Persona 5 Royal with custom animations, radar charts, and interactive elements.', link: 'https://github.com/mark21097/portfolio-website' },
+  // ── School projects (GitHub restricted) ──
+  { title: 'Sudoku AI Agent', desc: 'MCTS-based AI agent using Python and UCT formula', longDesc: 'An intelligent Sudoku solver using Monte Carlo Tree Search with Upper Confidence Trees. Explores solution spaces efficiently to solve puzzles of varying difficulty.', school: true },
+  { title: 'Custom Search Engine', desc: 'High-Performance Web Crawler and Inverted Index', longDesc: 'A high-performance web crawler and search engine with an inverted index for fast query lookups. Handles large-scale document indexing and ranked retrieval.', school: true },
+  { title: 'Columns in Python', desc: 'Tetris-style game implemented with Pygame', longDesc: 'A Tetris-style puzzle game built with Pygame featuring falling columns, color matching mechanics, score tracking, and increasing difficulty levels.', school: true },
+  { title: 'Senti-IMDB of Movie Reviews', desc: 'NLP project using NLTK and scikit-learn to classify movie reviews', longDesc: 'A sentiment analysis project using NLTK for text preprocessing and scikit-learn for classification. Trained on IMDB movie reviews to predict positive/negative sentiment.', school: true },
 ];
 
 // ---- Nav Items ----

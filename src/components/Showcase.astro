@@ -60,10 +60,10 @@ import { showcaseProjects } from '../data/portfolio';
           </div>
         </div>
 
-        <!-- Tear-page corner (now inside the bounded card) -->
-        <div class="tear-corner">
-          <span class="tear-text font-p5-body">Click<br/>to Reveal</span>
-        </div>
+        <!-- Tear-page corner -->
+        <a href={project.link || '#'} target="_blank" rel="noopener" class="tear-corner">
+          <span class="tear-text font-p5-body">OPEN →</span>
+        </a>
       </div>
     </div>
   ))}
